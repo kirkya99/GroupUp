@@ -1,16 +1,16 @@
-package de.rwu.group_up.ui.notifications;
+package de.rwu.group_up.ui.user_profile;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class NotificationsViewModel extends ViewModel {
+public class UserProfileViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public NotificationsViewModel() {
+    public UserProfileViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is notifications fragment");
+        mText.setValue("This is user profile fragment");
     }
 
     public LiveData<String> getText() {

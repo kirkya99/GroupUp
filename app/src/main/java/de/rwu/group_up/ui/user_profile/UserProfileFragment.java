@@ -1,4 +1,4 @@
-package de.rwu.group_up.ui.home;
+package de.rwu.group_up.ui.user_profile;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,18 +10,18 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import de.rwu.group_up.databinding.FragmentHomeBinding;
+import de.rwu.group_up.databinding.FragmentUserProfileBinding;
 
-public class HomeFragment extends Fragment {
+public class UserProfileFragment extends Fragment {
 
-    private FragmentHomeBinding binding;
+    private FragmentUserProfileBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        HomeViewModel homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
+        UserProfileViewModel homeViewModel =
+                new ViewModelProvider(this).get(UserProfileViewModel.class);
 
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        binding = FragmentUserProfileBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         final TextView textView = binding.textHome;

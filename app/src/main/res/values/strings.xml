@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Group-Up</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_user_profile">User</string>
+    <string name="title_my_groups">My Groups</string>
+    <string name="title_all_groups">All Groups</string>
     <string name="login">Login</string>
     <string name="username">Username:</string>
     <string name="password">Password:</string>
