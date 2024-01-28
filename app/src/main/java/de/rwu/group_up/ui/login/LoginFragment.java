@@ -11,27 +11,26 @@ import androidx.fragment.app.Fragment;
 
 import de.rwu.group_up.R;
 
-public class LoginFragment extends AppCompatActivity {
+public class LoginFragment extends Fragment {
     private LoginViewModel loginViewModel;
 
-    public LoginFragment() {
-        loginViewModel = new LoginViewModel();
+    public LoginFragment(LoginViewModel loginViewModel) {
+        this.loginViewModel = loginViewModel;
     }
 
     @Override
     public void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
-        setContentView(R.layout.fragment_login);
-        Button btnLogin = (Button) findViewById(R.id.buttonLogin);
-        btnLogin.setOnClickListener(view -> {
+//        setContentView(R.layout.fragment_login);
+//        Button btnLogin = (Button) findViewById(R.id.buttonLogin);
+//        btnLogin.setOnClickListener(view -> {
 //            loginViewModel.setLoggedIn(true);
-            setContentView(R.layout.activity_main);
-        });
+//        });
     }
 
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
-//        View view = inflater.inflate(R.layout.fragment_login, container, false);
-//
-//        return view;
-//    }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_login, container, false);
+
+        return view;
+    }
 }

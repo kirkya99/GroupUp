@@ -14,6 +14,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import de.rwu.group_up.databinding.ActivityMainBinding;
 import de.rwu.group_up.ui.login.LoginFragment;
+import de.rwu.group_up.ui.login.LoginViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,8 +24,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        LoginFragment loginFragment = new LoginFragment();
-//        getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_activity_main, loginFragment).commit();
+        LoginViewModel loginViewModel = new LoginViewModel();
+        LoginFragment loginFragment = new LoginFragment(loginViewModel);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -40,6 +41,10 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.navView, navController);
 
         navView.setVisibility(View.VISIBLE);
+
+
+//        getSupportFragmentManager().beginTransaction().replace(R.id.nav_host_fragment_activity_main, loginFragment).commit();
+
     }
 
 }
