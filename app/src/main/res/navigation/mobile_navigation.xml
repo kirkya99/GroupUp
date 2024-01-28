@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_user_profile_details">
+    app:startDestination="@id/navigation_user_profile_details">
 
     <fragment
         android:id="@+id/navigation_user_profile_details"
@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_user_profile_details" >
         <action
             android:id="@+id/action_navigation_home_to_userProfileEditFragment"
-            app:destination="@id/userProfileEditFragment" />
+            app:destination="@id/navigation_user_profile_edit" />
     </fragment>
 
     <fragment
@@ -27,9 +27,10 @@
         android:label="@string/title_all_groups"
         tools:layout="@layout/fragment_all_groups" />
     <fragment
-        android:id="@+id/userProfileEditFragment"
+        android:id="@+id/navigation_user_profile_edit"
         android:name="de.rwu.group_up.ui.user_profile.edit.UserProfileEditFragment"
-        android:label="UserProfileEditFragment" >
+        android:label="UserProfileEditFragment"
+        tools:layout="@layout/fragment_user_profile_edit">
         <action
             android:id="@+id/action_userProfileEditFragment_to_navigation_home"
             app:destination="@id/navigation_user_profile_details" />
@@ -37,9 +38,13 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="de.rwu.group_up.ui.login.LoginFragment"
-        android:label="LoginFragment" >
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login">
         <action
-            android:id="@+id/action_loginFragment_to_navigation_home"
+            android:id="@+id/navigation_login"
             app:destination="@id/navigation_user_profile_details" />
+        <action
+            android:id="@+id/navigation_register"
+            app:destination="@+id/navigation_user_profile_edit"/>
     </fragment>
 </navigation>
