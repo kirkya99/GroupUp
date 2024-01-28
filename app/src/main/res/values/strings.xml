@@ -9,4 +9,6 @@
     <string name="logout">Logout</string>
     <string name="btnEditUser">Edit User Profile</string>
     <string name="edit_user_profile_description">Edit the user profile.</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
 </resources>

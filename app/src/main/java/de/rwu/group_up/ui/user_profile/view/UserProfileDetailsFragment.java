@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -44,9 +45,7 @@ public class UserProfileDetailsFragment extends Fragment {
     }
 
     private void navigateToUserEditFragment() {
-        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, new UserProfileEditFragment());
-        transaction.addToBackStack(null);
-        transaction.commit();
+        Navigation.findNavController(requireView()).navigate(R.id.action_navigation_home_to_userProfileEditFragment);
     }
+
 }
