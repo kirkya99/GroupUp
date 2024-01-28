@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="de.rwu.group_up.ui.user_profile.UserProfileFragment"
+        android:name="de.rwu.group_up.ui.user_profile.view.UserProfileDetailsFragment"
         android:label="@string/title_user_profile"
-        tools:layout="@layout/fragment_user_profile" />
+        tools:layout="@layout/fragment_user_profile_details" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
