@@ -5,10 +5,11 @@ on:
     branches:
       - main  # Trigger CI on pushes to the main branch
       - '*'   # Also trigger CI on pushes to any branch
+      - '**/**'
   pull_request:
     branches:
       - main  # Trigger CI on pull requests targeting the main branch
-
+      
 jobs:
   build:
     runs-on: ubuntu-latest
