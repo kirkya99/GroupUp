@@ -5,11 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -28,24 +28,21 @@ public class UserProfileDetailsFragment extends Fragment {
 
         binding = FragmentUserProfileDetailsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        requireActivity().setTitle("User Profile Details");
 
         final TextView textView = binding.textHome;
         homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         FloatingActionButton editButton = root.findViewById(R.id.editUserProfileBtn);
-        editButton.setOnClickListener(v -> navigateToUserEditFragment());
-
+        editButton.setOnClickListener(v -> navigateToUserProfileEditFragment());
         return root;
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
+    public void navigateToUserProfileEditFragment() {
+        UserProfileEditFragment userProfileEditFragment = new UserProfileEditFragment();
+        FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, userProfileEditFragment, "userProfileEditFragment");
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
-
-    private void navigateToUserEditFragment() {
-        Navigation.findNavController(requireView()).navigate(R.id.action_navigation_home_to_userProfileEditFragment);
-    }
-
 }

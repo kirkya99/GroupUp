@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Group-Up</string>
+    <string name="user_profile_details">User Profile</string>
+    <string name="my_groups">My Groups</string>
+    <string name="all_groups">ALl Groups</string>
     <string name="title_user_profile">User</string>
     <string name="title_my_groups">My Groups</string>
     <string name="title_all_groups">All Groups</string>

@@ -1,16 +1,31 @@
 package de.rwu.group_up.ui.login;
 
-public class LoginViewModel {
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
+import java.io.Serializable;
+
+public class LoginViewModel extends ViewModel implements Serializable {
     private boolean isLoggedIn = false;
+    private String userName = "";
 
     public boolean isLoggedIn() {
-        return this.isLoggedIn;
+
+        System.out.println(isLoggedIn);
+        return isLoggedIn;
     }
 
     public void setLoggedIn(boolean loggedIn) {
-        this.isLoggedIn = loggedIn;
+        System.out.println(isLoggedIn);
+        isLoggedIn = loggedIn;
     }
 
+    public String getUserName() {
+        return userName;
+    }
 
+    public void setUserName(String userName) {
+
+        this.userName = userName;
+    }
 }
