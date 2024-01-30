@@ -9,6 +9,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -24,11 +25,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     private ActivityMainBinding binding;
 
-    // ViewModels
-    private LoginViewModel loginViewModel;
 
-    // Fragments
-    private LoginFragment loginFragment;
     private UserProfileDetailsFragment userProfileDetailsFragment;
     private UserProfileEditFragment userProfileEditFragment;
     private MyGroupsFragment myGroupsFragment;
@@ -39,8 +36,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setOnItemSelectedListener(this); // Set the listener

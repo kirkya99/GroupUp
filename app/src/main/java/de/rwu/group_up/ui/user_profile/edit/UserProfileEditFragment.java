@@ -25,7 +25,7 @@ public class UserProfileEditFragment extends Fragment {
         requireActivity().setTitle("User Profile Edit");
 
 
-        Button btnSave = root.findViewById(R.id.btnSaveUserProfile);
+        Button btnSave = root.findViewById(R.id.buttonSave);
         btnSave.setOnClickListener(v -> navigateToUserProfileDetailsFragment());
 
         return root;

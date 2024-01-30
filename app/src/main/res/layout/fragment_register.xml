@@ -8,18 +8,6 @@
     android:paddingTop="?attr/actionBarSize"
     tools:context=".ui.start_screen.register.RegisterFragment">
 
-    <Button
-        android:id="@+id/buttonCancelRegister"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/editTextPassword"
-        android:layout_marginTop="16dp"
-        android:text="@string/cancel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonLogin"
-        app:layout_constraintWidth_percent="0.75" />
-
     <EditText
         android:id="@+id/editTextUsername"
         android:layout_width="0dp"
@@ -59,5 +47,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextPassword"
+        app:layout_constraintWidth_percent="0.75" />
+
+    <Button
+        android:id="@+id/buttonCancelRegister"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextPassword"
+        android:layout_marginTop="16dp"
+        android:text="@string/cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonLogin"
         app:layout_constraintWidth_percent="0.75" />
 </androidx.constraintlayout.widget.ConstraintLayout>
