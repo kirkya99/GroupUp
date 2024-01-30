@@ -41,7 +41,7 @@ public class UserProfileDetailsFragment extends Fragment {
     public void navigateToUserProfileEditFragment() {
         UserProfileEditFragment userProfileEditFragment = new UserProfileEditFragment();
         FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, userProfileEditFragment, "userProfileEditFragment");
+        fragmentTransaction.replace(R.id.main_container, userProfileEditFragment, "userProfileEditFragment");
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }

@@ -1,5 +1,6 @@
 package de.rwu.group_up;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,8 +14,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import de.rwu.group_up.databinding.ActivityMainBinding;
 import de.rwu.group_up.ui.all_groups.AllGroupsFragment;
-import de.rwu.group_up.ui.login.LoginFragment;
-import de.rwu.group_up.ui.login.LoginViewModel;
+import de.rwu.group_up.ui.start_screen.login.LoginFragment;
+import de.rwu.group_up.ui.start_screen.login.LoginViewModel;
 import de.rwu.group_up.ui.my_groups.MyGroupsFragment;
 import de.rwu.group_up.ui.user_profile.edit.UserProfileEditFragment;
 import de.rwu.group_up.ui.user_profile.view.UserProfileDetailsFragment;
@@ -45,30 +46,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         navView.setOnItemSelectedListener(this); // Set the listener
 
         // Initially selecting the first item
-//        navView.setSelectedItemId(R.id.navigation_user_profile_details);
-    }
-
-    private void checkLoginStatus() {
-        // Check if user is logged in
-        if (loginViewModel.isLoggedIn()) {
-            showNavigationMenu();
-        } else {
-            showLoginFragment();
-        }
-    }
-
-    private void showLoginFragment() {
-        BottomNavigationView navView = findViewById(R.id.nav_view);
-        navView.setVisibility(View.GONE);
-
-        if (loginFragment == null) {
-            loginFragment = new LoginFragment();
-            loginFragment.setLoginViewModel(loginViewModel);
-        }
-
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, loginFragment, "loginFragment");
-        fragmentTransaction.commit();
+        navView.setSelectedItemId(R.id.navigation_user_profile_details);
     }
 
     private void showNavigationMenu() {
@@ -81,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, userProfileDetailsFragment, "userProfileDetailsFragment");
+        fragmentTransaction.replace(R.id.main_container, userProfileDetailsFragment, "userProfileDetailsFragment");
         fragmentTransaction.commit();
     }
 
@@ -93,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 userProfileDetailsFragment = new UserProfileDetailsFragment();
             }
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, userProfileDetailsFragment, "userProfileDetailsFragment");
+            fragmentTransaction.replace(R.id.main_container, userProfileDetailsFragment, "userProfileDetailsFragment");
             fragmentTransaction.commit();
             return true;
         } else if (itemId == R.id.navigation_my_groups) {
@@ -102,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 myGroupsFragment = new MyGroupsFragment();
             }
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, myGroupsFragment, "myGroupsFragment");
+            fragmentTransaction.replace(R.id.main_container, myGroupsFragment, "myGroupsFragment");
             fragmentTransaction.commit();
             return true;
         } else if (itemId == R.id.navigation_all_groups) {
@@ -111,12 +89,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 allGroupsFragment = new AllGroupsFragment();
             }
             FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, allGroupsFragment, "allGroupsFragment");
+            fragmentTransaction.replace(R.id.main_container, allGroupsFragment, "allGroupsFragment");
             fragmentTransaction.commit();
             return true;
         } else if (itemId == R.id.logout) {
-            // TODO: Implement logout logic
-            return true;
+            startActivity(new Intent(MainActivity.this, StartActivity.class));
+            finish(); // Prevent user from coming back to login screen using back button            return true;
         }
         return false;
     }
