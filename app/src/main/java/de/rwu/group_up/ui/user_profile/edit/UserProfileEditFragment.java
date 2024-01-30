@@ -25,13 +25,20 @@ public class UserProfileEditFragment extends Fragment {
         requireActivity().setTitle("User Profile Edit");
 
 
-        Button btnSave = root.findViewById(R.id.buttonSave);
-        btnSave.setOnClickListener(v -> navigateToUserProfileDetailsFragment());
+        Button buttonSave = root.findViewById(R.id.buttonSave);
+        Button buttonCancel = root.findViewById(R.id.buttonCancel);
 
+        buttonSave.setOnClickListener(v -> save());
+        buttonCancel.setOnClickListener(v -> cancel());
         return root;
     }
 
-    public void navigateToUserProfileDetailsFragment() {
+    public void save() {
+        // TODO: save the new data
+        requireActivity().getSupportFragmentManager().popBackStack();
+    }
+
+    public void cancel() {
         requireActivity().getSupportFragmentManager().popBackStack();
     }
 
