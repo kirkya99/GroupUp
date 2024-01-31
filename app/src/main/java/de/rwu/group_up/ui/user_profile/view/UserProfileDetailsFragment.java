@@ -2,6 +2,9 @@ package de.rwu.group_up.ui.user_profile.view;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -15,15 +18,17 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import de.rwu.group_up.R;
 import de.rwu.group_up.databinding.FragmentUserProfileDetailsBinding;
+import de.rwu.group_up.ui.components.LogoutConfirmationDialog;
 import de.rwu.group_up.ui.user_profile.edit.UserProfileEditFragment;
 
 public class UserProfileDetailsFragment extends Fragment {
 
     private FragmentUserProfileDetailsBinding binding;
+    private UserProfileDetailsViewModel userProfileDetailsViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        UserProfileDetailsViewModel homeViewModel =
+        userProfileDetailsViewModel =
                 new ViewModelProvider(this).get(UserProfileDetailsViewModel.class);
 
         binding = FragmentUserProfileDetailsBinding.inflate(inflater, container, false);
@@ -31,11 +36,30 @@ public class UserProfileDetailsFragment extends Fragment {
         requireActivity().setTitle("User Profile Details");
 
         final TextView textView = binding.textHome;
-        homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        userProfileDetailsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
 
         FloatingActionButton editButton = root.findViewById(R.id.editUserProfileBtn);
         editButton.setOnClickListener(v -> navigateToUserProfileEditFragment());
+
+        setHasOptionsMenu(true);
+
         return root;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_toolbar, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_logout) {
+            showLogoutConfirmationDialog();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void navigateToUserProfileEditFragment() {
@@ -44,5 +68,11 @@ public class UserProfileDetailsFragment extends Fragment {
         fragmentTransaction.replace(R.id.main_container, userProfileEditFragment, "userProfileEditFragment");
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+    private void showLogoutConfirmationDialog(){
+        LogoutConfirmationDialog logoutConfirmationDialog = new LogoutConfirmationDialog();
+        logoutConfirmationDialog.setArguments(new Bundle());
+        logoutConfirmationDialog.show(getParentFragmentManager(), "LogoutConfirmationDialog");
     }
 }

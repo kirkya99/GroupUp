@@ -25,4 +25,7 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="register">Register</string>
+    <string name="do_you_want_to_logout">Do you want to logout?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

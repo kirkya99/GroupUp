@@ -7,9 +7,12 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 
+import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -46,13 +49,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         navView.setSelectedItemId(R.id.navigation_user_profile_details);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        setTitle("Menu App");
-        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
-        return true;
-    }
+
 
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
@@ -61,29 +58,29 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             if (userProfileDetailsFragment == null) {
                 userProfileDetailsFragment = new UserProfileDetailsFragment();
             }
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.main_container, userProfileDetailsFragment, "userProfileDetailsFragment");
-            fragmentTransaction.commit();
+            fragmentNavigation(userProfileDetailsFragment, "userProfileDetailsFragment");
             return true;
         } else if (itemId == R.id.navigation_my_groups) {
             setTitle("My Groups");
             if (myGroupsFragment == null) {
                 myGroupsFragment = new MyGroupsFragment();
             }
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.main_container, myGroupsFragment, "myGroupsFragment");
-            fragmentTransaction.commit();
+            fragmentNavigation(myGroupsFragment, "myGroupsFragment");
             return true;
         } else if (itemId == R.id.navigation_all_groups) {
             setTitle("All Groups");
             if (allGroupsFragment == null) {
                 allGroupsFragment = new AllGroupsFragment();
             }
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.main_container, allGroupsFragment, "allGroupsFragment");
-            fragmentTransaction.commit();
+            fragmentNavigation(allGroupsFragment, "allGroupsFragment");
             return true;
         }
         return false;
+    }
+
+    private void fragmentNavigation(@NonNull Fragment fragmentInstance, @Nullable String fragmentName) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.main_container, fragmentInstance, fragmentName);
+        fragmentTransaction.commit();
     }
 }

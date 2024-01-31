@@ -1,8 +1,15 @@
 package de.rwu.group_up.ui.user_profile.view;
 
+import android.content.Intent;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import com.google.firebase.auth.FirebaseAuth;
+
+import de.rwu.group_up.MainActivity;
+import de.rwu.group_up.StartActivity;
 
 public class UserProfileDetailsViewModel extends ViewModel {
 
@@ -16,4 +23,6 @@ public class UserProfileDetailsViewModel extends ViewModel {
     public LiveData<String> getText() {
         return mText;
     }
+
+
 }
