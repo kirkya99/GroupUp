@@ -33,7 +33,7 @@ jobs:
       id: create_release
       uses: actions/create-release@v1
       env:
-        GROUPUP_TOKEN: qyU4v#xq*$QuT46t$F6L23y%ZTJMQJuk6*N4*cXvi6HYge*khj5QzScYPoF63&bSot2S74mThDduKQ3Nq4oZum6eKCh*2qT%n&vvvd*8r7FuZ6n*D%fCSWin!7xtUQ%^
+        GROUPUP_TOKEN: ${{ secrets.GROUPUP_TOKEN }}
       with:
         tag_name: v1.0.0  # Specify your tag name here
         release_name: Release v1.0.0  # Specify your release name here
