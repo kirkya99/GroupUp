@@ -5,12 +5,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.Firebase;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import de.rwu.group_up.MainActivity;
 import de.rwu.group_up.R;
@@ -31,22 +32,16 @@ public class LoginFragment extends BaseForm {
         View root = inflater.inflate(R.layout.fragment_login, container, false);
         requireActivity().setTitle("Login");
 
-        editTextUsername = root.findViewById(R.id.editTextUsername);
+        editTextEmail = root.findViewById(R.id.editTextUsername);
         editTextPassword = root.findViewById(R.id.editTextPassword);
         buttonGo = root.findViewById(R.id.buttonLogin);
         buttonCancel = root.findViewById(R.id.buttonCancelLogin);
 
         buttonGo.setOnClickListener(v -> {
-            String username = editTextUsername.getText().toString();
+            String email = editTextEmail.getText().toString();
             String password = editTextPassword.getText().toString();
 
-            if (isValidCredentials(username, password)) {
-                Intent intent = new Intent(getActivity(), MainActivity.class);
-                startActivity(intent);
-                getActivity().finish();
-            } else {
-                Snackbar.make(requireView(), "Invalid username or password", Snackbar.LENGTH_SHORT).show();
-            }
+            handleLogin(email, password);
         });
 
         buttonCancel.setOnClickListener(v -> cancel());
@@ -54,9 +49,21 @@ public class LoginFragment extends BaseForm {
         return root;
     }
 
-    protected boolean isValidCredentials(String username, String password) {
-        // Replace this with your actual authentication logic (e.g., API call to server, Firebase Authentication, etc.)
-        // For demo purposes, let's assume any non-empty username/password is valid
-        return !username.isEmpty() && !password.isEmpty();
+    private void handleLogin(String email, String password) {
+        if (isValidCredentials(email, password)) {
+            FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                    startActivity(intent);
+                    getActivity().finish();
+                } else {
+                    Snackbar.make(requireView(), "Login failed: " + task.getException().getMessage(), Snackbar.LENGTH_SHORT).show();
+                }
+            });
+        }
+        else {
+            Snackbar.make(requireView(), "Login failed: Input fields must be filled", Snackbar.LENGTH_SHORT).show();
+        }
     }
 }
