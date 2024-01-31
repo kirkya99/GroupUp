@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "352525588179",
+    "project_id": "groupup-879fd",
+    "storage_bucket": "groupup-879fd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:352525588179:android:781e7a53d32dbf803de626",
+        "android_client_info": {
+          "package_name": "de.rwu.group_up"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVv3HgQ2c_bdRO44eDOpvPdqd91KfAKko"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
