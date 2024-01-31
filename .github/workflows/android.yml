@@ -8,9 +8,7 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 17
@@ -33,10 +31,10 @@ jobs:
       id: create_release
       uses: actions/create-release@v1
       env:
-        GITHUB_TOKEN: qyU4v#xq*$QuT46t$F6L23y%ZTJMQJuk6*N4*cXvi6HYge*khj5QzScYPoF63&bSot2S74mThDduKQ3Nq4oZum6eKCh*2qT%n&vvvd*8r7FuZ6n*D%fCSWin!7xtUQ%^
+        GITHUB_GROUPUP_SECRET: ${{ secrets.GROUPUP_TOKEN }}
       with:
-        tag_name: v1.0.0  # Specify your tag name here
-        release_name: Release v1.0.0  # Specify your release name here
+        tag_name: v1.0.0
+        release_name: Release v1.0.0
         body: |
           Release Notes for v1.0.0:
           - Add feature X
