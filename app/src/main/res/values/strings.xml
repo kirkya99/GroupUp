@@ -7,7 +7,8 @@
     <string name="title_my_groups">My Groups</string>
     <string name="title_all_groups">All Groups</string>
     <string name="login">Login</string>
-    <string name="username">Username</string>
+    <string name="email">Email</string>
+    <string name="resetPassword">Reset password</string>
     <string name="password">Password</string>
     <string name="logout">Logout</string>
     <string name="btnEditUser">Edit User Profile</string>
