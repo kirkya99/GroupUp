@@ -11,13 +11,16 @@ import androidx.fragment.app.Fragment;
 
 public abstract class BaseForm extends Fragment {
 
-    protected EditText editTextUsername;
+    protected EditText editTextEmail;
     protected EditText editTextPassword;
     protected Button buttonGo;
     protected Button buttonCancel;
+
     public abstract View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle saveInstanceState);
 
-    protected abstract boolean isValidCredentials(String username, String password);
+    protected boolean isValidCredentials(String email, String password) {
+        return !email.isEmpty() && !password.isEmpty();
+    }
 
     protected void cancel() {
         requireActivity().getSupportFragmentManager().popBackStack();

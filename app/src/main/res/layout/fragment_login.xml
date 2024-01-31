@@ -15,7 +15,7 @@
         android:height="48dp"
         android:autofillHints="@string/username"
         android:hint="@string/username"
-        android:inputType="textAutoComplete"
+        android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

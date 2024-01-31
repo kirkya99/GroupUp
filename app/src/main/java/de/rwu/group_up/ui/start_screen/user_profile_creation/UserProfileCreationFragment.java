@@ -40,6 +40,7 @@ public class UserProfileCreationFragment extends Fragment {
     }
 
     public void cancel() {
+        // TODO: Implement a delete user for the cancellation
         requireActivity().getSupportFragmentManager().popBackStack();
     }
 }

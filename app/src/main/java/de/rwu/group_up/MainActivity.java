@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -88,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             fragmentTransaction.commit();
             return true;
         } else if (itemId == R.id.logout) {
+            FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(MainActivity.this, StartActivity.class));
             finish(); // Prevent user from coming back to login screen using back button            return true;
         }

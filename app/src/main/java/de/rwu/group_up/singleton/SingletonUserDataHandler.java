@@ -42,4 +42,13 @@ public class SingletonUserDataHandler {
     public static ArrayList<String> getInterests() {
         return interests;
     }
+
+    public static void setUserData(String base64Image, String username, String name, String email, Integer age, ArrayList<String> interests) {
+        SingletonUserDataHandler.base64Image = base64Image;
+        SingletonUserDataHandler.username = username;
+        SingletonUserDataHandler.name = name;
+        SingletonUserDataHandler.email = email;
+        SingletonUserDataHandler.age = age;
+        SingletonUserDataHandler.interests = interests;
+    }
 }
