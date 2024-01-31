@@ -2,6 +2,7 @@ package de.rwu.group_up;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -45,18 +46,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         navView.setSelectedItemId(R.id.navigation_user_profile_details);
     }
 
-    private void showNavigationMenu() {
-        BottomNavigationView navView = findViewById(R.id.nav_view);
-        navView.setOnItemSelectedListener(this);
-        navView.setVisibility(View.VISIBLE);
-
-        if (userProfileDetailsFragment == null) {
-            userProfileDetailsFragment = new UserProfileDetailsFragment();
-        }
-
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.main_container, userProfileDetailsFragment, "userProfileDetailsFragment");
-        fragmentTransaction.commit();
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        setTitle("Menu App");
+        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        return true;
     }
 
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -88,10 +83,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             fragmentTransaction.replace(R.id.main_container, allGroupsFragment, "allGroupsFragment");
             fragmentTransaction.commit();
             return true;
-        } else if (itemId == R.id.logout) {
-            FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(MainActivity.this, StartActivity.class));
-            finish(); // Prevent user from coming back to login screen using back button            return true;
         }
         return false;
     }

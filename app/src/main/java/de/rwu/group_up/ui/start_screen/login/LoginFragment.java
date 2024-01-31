@@ -44,6 +44,8 @@ public class LoginFragment extends BaseForm {
         buttonResetPassword = root.findViewById(R.id.buttonResetPassword);
         buttonCancel = root.findViewById(R.id.buttonCancelLogin);
 
+        debugLogin();
+
         buttonGo.setOnClickListener(v -> {
             String email = editTextEmail.getText().toString();
             String password = editTextPassword.getText().toString();
@@ -86,5 +88,10 @@ public class LoginFragment extends BaseForm {
         Intent intent = new Intent(getActivity(), MainActivity.class);
         startActivity(intent);
         getActivity().finish();
+    }
+
+    private void debugLogin(){
+        editTextEmail.setText("fschott977@gmail.com");
+        editTextPassword.setText("123456");
     }
 }
