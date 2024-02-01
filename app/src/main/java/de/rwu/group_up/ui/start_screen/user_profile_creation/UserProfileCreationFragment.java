@@ -10,9 +10,12 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import de.rwu.group_up.MainActivity;
 import de.rwu.group_up.R;
 import de.rwu.group_up.databinding.FragmentUserProfileCreationBinding;
+import de.rwu.group_up.ui.components.cancel_registration.AbortRegistrationConfirmationDialog;
 
 public class UserProfileCreationFragment extends Fragment {
     private FragmentUserProfileCreationBinding binding;
@@ -36,11 +39,25 @@ public class UserProfileCreationFragment extends Fragment {
 
         Intent intent = new Intent(getActivity(), MainActivity.class);
         startActivity(intent);
-        getActivity().finish();
+        if(getActivity() != null)
+        {
+            getActivity().finish();
+        }
     }
 
     public void cancel() {
-        // TODO: Implement a delete user for the cancellation
-        requireActivity().getSupportFragmentManager().popBackStack();
+        AbortRegistrationConfirmationDialog abortRegistrationConfirmationDialog = new AbortRegistrationConfirmationDialog(this);
+        abortRegistrationConfirmationDialog.setArguments(new Bundle());
+        abortRegistrationConfirmationDialog.show(getParentFragmentManager(), "AbortRegistrationConfirmationDialog");
+    }
+
+    public void onRegistrationAborted() {
+        String message = "Registration process aborted!";
+        getParentFragmentManager().popBackStack();
+        Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show();
+    }
+
+    private void createInterestsChipList() {
+
     }
 }

@@ -1,18 +1,9 @@
 package de.rwu.group_up.ui.start_screen.login;
 
-import android.content.Intent;
-
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import java.io.Serializable;
-
-import de.rwu.group_up.MainActivity;
-import de.rwu.group_up.singleton.SingletonUserDataHandler;
 
 public class LoginViewModel extends ViewModel {
     public void handleLogin(String email, String password, OnLoginListener listener) {

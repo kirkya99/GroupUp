@@ -1,4 +1,4 @@
-package de.rwu.group_up.ui.components;
+package de.rwu.group_up.ui.components.logout;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

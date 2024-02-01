@@ -18,7 +18,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import de.rwu.group_up.R;
 import de.rwu.group_up.databinding.FragmentUserProfileDetailsBinding;
-import de.rwu.group_up.ui.components.LogoutConfirmationDialog;
+import de.rwu.group_up.ui.components.logout.LogoutConfirmationDialog;
 import de.rwu.group_up.ui.user_profile.edit.UserProfileEditFragment;
 
 public class UserProfileDetailsFragment extends Fragment {
@@ -48,7 +48,7 @@ public class UserProfileDetailsFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_toolbar, menu);
+        inflater.inflate(R.menu.user_profile_details_menu, menu);
     }
 
     @Override
