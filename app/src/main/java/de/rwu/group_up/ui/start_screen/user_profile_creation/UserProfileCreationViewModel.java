@@ -5,15 +5,50 @@ import androidx.lifecycle.ViewModel;
 import java.util.HashMap;
 
 import de.rwu.group_up.User;
-import de.rwu.group_up.ui.user_profile.view.UserProfileDetailsViewModel;
+import de.rwu.group_up.IUserModifiable;
 
-public class UserProfileCreationViewModel extends ViewModel {
 
-    private User newUser;
+public class UserProfileCreationViewModel extends ViewModel implements IUserModifiable{
+
+    private IUserModifiable newUser;
     private HashMap<String, Boolean> interestsMap;
 
     public UserProfileCreationViewModel() {
         newUser = new User();
         interestsMap = newUser.getInterestsMap();
     }
+
+    public HashMap<String, Boolean> getInterestsMap() {
+        return interestsMap;
+    }
+
+    public void setProfileImageUrl(String profileImageUrl) {
+
+    }
+
+    public void setEmail(String email) {
+        newUser.setEmail(email);
+    }
+
+    public void setName(String name) {
+        newUser.setName(name);
+    }
+
+    public void setAge(int age) {
+        newUser.setAge(age);
+    }
+
+    public void setGender(String gender) {
+        newUser.setGender(gender);
+    }
+
+    public void setInterestsMapItem(String key, Boolean value) {
+        interestsMap.put(key, value);
+    }
+
+    public void setOtherInfo(String otherInfo) {
+        newUser.setOtherInfo(otherInfo);
+    }
+
+
 }

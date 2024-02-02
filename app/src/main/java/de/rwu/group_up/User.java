@@ -1,10 +1,10 @@
 package de.rwu.group_up;
 
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.HashMap;
 
-
-
-public class User {
+public class User implements IUserModifiable, IUserReadable{
 
     public User() {
         initInterestsMap();
@@ -12,6 +12,8 @@ public class User {
 
     private void initInterestsMap() {
         interestsMap = new HashMap<>();
+
+        // Sport Activities
         interestsMap.put("Soccer", false);
         interestsMap.put("Basketball", false);
         interestsMap.put("Tennis", false);
@@ -92,18 +94,19 @@ public class User {
         interestsMap.put("Movies and TV Series", false);
     }
 
-    public enum Gender {
-        Male,
-        Female,
-        NonBinary,
-        None
-    }
+    public static final String NONE = "None";
+    public static final String MALE = "Male";
+    public static final String FEMALE = "Female";
+    public static final String NON_BINARY = "Non-binary";
+    public static final String OTHER = "Other gender identity";
+    public static final String[] GENDERS = {NONE, MALE, FEMALE, NON_BINARY, OTHER};
 
+    private String uid;
     private String profileImageUrl;
     private String email;
     private String name;
     private int age;
-    private Gender gender;
+    private String gender;
     private HashMap<String, Boolean> interestsMap;
     private String otherInfo;
 
@@ -123,7 +126,7 @@ public class User {
         return age;
     }
 
-    public Gender getGender() {
+    public String getGender() {
         return gender;
     }
 
@@ -135,13 +138,31 @@ public class User {
         return otherInfo;
     }
 
-    public void setUser(String profileImageUrl, String email, String name, int age, Gender gender, HashMap<String, Boolean> interestsMap, String otherInfo) {
+    public void setProfileImageUrl(String profileImageUrl) {
         this.profileImageUrl = profileImageUrl;
+    }
+
+    public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setName(String name) {
         this.name = name;
+    }
+
+    public void setAge(int age) {
         this.age = age;
+    }
+
+    public void setGender(String gender) {
         this.gender = gender;
-        this.interestsMap = interestsMap;
+    }
+
+    public void setInterestsMapItem(String key, Boolean value){
+        interestsMap.put(key, value);
+    }
+
+    public void setOtherInfo(String otherInfo) {
         this.otherInfo = otherInfo;
     }
 }
