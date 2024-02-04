@@ -4,56 +4,80 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import de.rwu.group_up.R;
 
 public class ImagePickerDialogFragment extends DialogFragment {
+    private ImagePickerViewModel imagePickerViewModel;
     private IImagePickerListener imagePickerListener;
     private static final String TAG = "ImagePickerDialogFragment";
+
+    private ActivityResultLauncher<Uri> takePicture;
+
+//    private ActivityResultLauncher<Intent> mGetContent;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        this.imagePickerViewModel = new ViewModelProvider(this).get(ImagePickerViewModel.class);
+//        this.mGetContent = registerForActivityResult(
+//                new ActivityResultContracts.StartActivityForResult(),
+//                result -> {
+//                    Log.i(TAG, "Result code: " + result.getResultCode());
+//                    if (result.getResultCode() == Activity.RESULT_OK) {
+//                        Intent data = result.getData();
+//                        if (data != null && data.getData() != null) {
+//                            Uri imageUri = data.getData();
+//
+//                            Log.e(TAG, "Result code: " + imageUri.toString());
+//
+//                            this.imagePickerListener.onImagePicked(imageUri);
+//                        } else {
+//                            this.imagePickerListener.onImagePicked(null);
+//                        }
+//                    }
+//                }
+//        );
+
+        this.takePicture = registerForActivityResult(
+                new ActivityResultContracts.TakePicture(), result -> {
+                    if(result) {
+                        Log.d(TAG, "Image was saved");
+                    } else {
+                        Log.e(TAG, "Image was not saved");
+                    }
+                });
+
+        this.imagePickerViewModel.setImageUri(getContext());
+    }
+
+    @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         super.onCreateDialog(savedInstanceState);
         this.setImagePickerListener((IImagePickerListener) getParentFragment());
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        ActivityResultLauncher<Intent> mGetContent = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    Log.i(this.TAG, "Result code: " + result.getResultCode());
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        Intent data = result.getData();
-                        if(data != null && data.getData() != null) {
-                            Uri imageUri = data.getData();
-                            this.imagePickerListener.onImagePicked(imageUri);
-                        }
-                        else {
-                            this.imagePickerListener.onImagePicked(null);
-                        }
-                    }
-                }
-        );
-
         builder.setTitle("Choose an option").setItems(new String[]{"Open Gallery", "Open Camera", "Remove Image", "Cancel"}, (dialog, which) -> {
             switch (which) {
                 case 0:
-                    this.openGallery(mGetContent);
+//                    this.openGallery(mGetContent);
                     break;
                 case 1:
-                    this.dispatchTakePictureIntent(mGetContent);
+                    this.takePicture.launch(this.imagePickerViewModel.getImageUri());
+                    this.imagePickerListener.onImagePicked(this.imagePickerViewModel.getImageUri());
                     break;
                 case 2:
                     this.imagePickerListener.onImagePicked(null);
@@ -66,7 +90,7 @@ public class ImagePickerDialogFragment extends DialogFragment {
     }
 
     public void openGallery(ActivityResultLauncher<Intent> mGetContent) {
-        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         mGetContent.launch(gallery);
     }
 
