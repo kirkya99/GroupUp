@@ -1,15 +1,8 @@
-package de.rwu.group_up.ui.user_profile.view;
-
-import android.content.Intent;
+package de.rwu.group_up.ui.main_screen.user_profile.details;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
-import com.google.firebase.auth.FirebaseAuth;
-
-import de.rwu.group_up.MainActivity;
-import de.rwu.group_up.StartActivity;
 
 public class UserProfileDetailsViewModel extends ViewModel {
 

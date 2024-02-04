@@ -1,4 +1,4 @@
-package de.rwu.group_up.ui.user_profile.edit;
+package de.rwu.group_up.ui.main_screen.user_profile.edit;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

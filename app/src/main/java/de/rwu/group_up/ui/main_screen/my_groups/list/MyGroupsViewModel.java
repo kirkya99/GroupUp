@@ -1,4 +1,4 @@
-package de.rwu.group_up.ui.my_groups;
+package de.rwu.group_up.ui.main_screen.my_groups.list;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

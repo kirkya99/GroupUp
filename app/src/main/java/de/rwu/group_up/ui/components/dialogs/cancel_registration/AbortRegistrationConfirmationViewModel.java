@@ -1,4 +1,4 @@
-package de.rwu.group_up.ui.components.cancel_registration;
+package de.rwu.group_up.ui.components.dialogs.cancel_registration;
 
 import androidx.lifecycle.ViewModel;
 

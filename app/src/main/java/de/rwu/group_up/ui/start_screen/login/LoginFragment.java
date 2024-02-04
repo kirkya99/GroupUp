@@ -9,15 +9,11 @@ import android.widget.Button;
 
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.Firebase;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import de.rwu.group_up.MainActivity;
+import de.rwu.group_up.ui.main_screen.MainActivity;
 import de.rwu.group_up.R;
-import de.rwu.group_up.ui.my_groups.MyGroupsViewModel;
 import de.rwu.group_up.ui.start_screen.BaseForm;
 
 public class LoginFragment extends BaseForm {

@@ -1,4 +1,4 @@
-package de.rwu.group_up.ui.user_profile.view;
+package de.rwu.group_up.ui.main_screen.user_profile.details;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,8 +18,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import de.rwu.group_up.R;
 import de.rwu.group_up.databinding.FragmentUserProfileDetailsBinding;
-import de.rwu.group_up.ui.components.logout.LogoutConfirmationDialog;
-import de.rwu.group_up.ui.user_profile.edit.UserProfileEditFragment;
+import de.rwu.group_up.ui.components.dialogs.logout.LogoutConfirmationDialogFragment;
+import de.rwu.group_up.ui.main_screen.user_profile.edit.UserProfileEditFragment;
 
 public class UserProfileDetailsFragment extends Fragment {
 
@@ -71,8 +71,8 @@ public class UserProfileDetailsFragment extends Fragment {
     }
 
     private void showLogoutConfirmationDialog(){
-        LogoutConfirmationDialog logoutConfirmationDialog = new LogoutConfirmationDialog();
-        logoutConfirmationDialog.setArguments(new Bundle());
-        logoutConfirmationDialog.show(getParentFragmentManager(), "LogoutConfirmationDialog");
+        LogoutConfirmationDialogFragment logoutConfirmationDialogFragment = new LogoutConfirmationDialogFragment();
+        logoutConfirmationDialogFragment.setArguments(new Bundle());
+        logoutConfirmationDialogFragment.show(getParentFragmentManager(), "LogoutConfirmationDialog");
     }
 }

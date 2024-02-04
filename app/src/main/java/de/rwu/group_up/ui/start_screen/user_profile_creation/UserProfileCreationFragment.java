@@ -1,79 +1,105 @@
 package de.rwu.group_up.ui.start_screen.user_profile_creation;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.ImageDecoder;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.rwu.group_up.MainActivity;
 import de.rwu.group_up.R;
-import de.rwu.group_up.User;
+import de.rwu.group_up.data.local.DatabaseController;
+import de.rwu.group_up.data.local.UserDatabaseController;
+import de.rwu.group_up.data.model.IUserModifiable;
+import de.rwu.group_up.ui.components.dialogs.image_picker.IImagePickerListener;
+import de.rwu.group_up.ui.components.dialogs.image_picker.ImagePickerDialogFragment;
+import de.rwu.group_up.ui.components.dialogs.image_picker.ImagePickerViewModel;
+import de.rwu.group_up.ui.main_screen.MainActivity;
 import de.rwu.group_up.databinding.FragmentUserProfileCreationBinding;
-import de.rwu.group_up.ui.components.cancel_registration.AbortRegistrationConfirmationDialog;
+import de.rwu.group_up.ui.components.dialogs.cancel_registration.AbortRegistrationConfirmationDialogFragment;
 
-public class UserProfileCreationFragment extends Fragment {
+public class UserProfileCreationFragment extends Fragment implements IImagePickerListener {
     private FragmentUserProfileCreationBinding binding;
     private UserProfileCreationViewModel userProfileCreationViewModel;
-    private RadioGroup genderRadioGroup;
+    private ImagePickerViewModel imagePickerViewModel;
+    private ImagePickerDialogFragment imagePickerDialogFragment;
     private RadioButton genderDefaultRadioButton;
-    private EditText otherGenderIdentityEditText;
-    private ChipGroup interestsChipGroup;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_user_profile_creation, container, false);
+        binding = FragmentUserProfileCreationBinding.inflate(inflater, container, false);
+        imagePickerDialogFragment = new ImagePickerDialogFragment();
+        View root = binding.getRoot();
         userProfileCreationViewModel = new ViewModelProvider(this).get(UserProfileCreationViewModel.class);
+        imagePickerViewModel = new ViewModelProvider(requireActivity()).get(ImagePickerViewModel.class);
 
         requireActivity().setTitle("User Profile Creation");
-        genderRadioGroup = root.findViewById(R.id.radioGroupGender);
-        interestsChipGroup = root.findViewById(R.id.chipGroupInterests);
-        otherGenderIdentityEditText = root.findViewById(R.id.otherGenderIdentityEditText);
-        createGenderRadioGroup(root);
+        createGenderRadioGroup();
         createInterestsChipList();
 
         // Extract content from creation fragment
-        getProfileImage(root);
-        getUserName(root);
-        getAge(root);
-        getOtherInfo(root);
+        callImagePickerDialog();
+//        getProfileImage();
+        getUserName();
+        getAge();
+        getOtherInfo();
 
-        Button buttonSave = root.findViewById(R.id.buttonSave);
-        Button buttonCancel = root.findViewById(R.id.buttonCancel);
-
-        buttonSave.setOnClickListener(v -> save());
-        buttonCancel.setOnClickListener(v -> cancel());
+        binding.buttonSave.setOnClickListener(v -> save());
+        binding.buttonCancel.setOnClickListener(v -> cancel());
 
         return root;
     }
 
-    // TODO: Implement profile image extraction
-    private void getProfileImage(View root) {
-        ImageView profileImage = root.findViewById(R.id.profileImage);
+    private void getProfileImage() {
+
+        imagePickerViewModel.getSelectedImageUri().observe(getViewLifecycleOwner(), uri -> {
+            if(uri != null) {
+                try {
+                    ImageDecoder.Source source = ImageDecoder.createSource(requireContext().getContentResolver(), uri);
+                    Drawable drawable = ImageDecoder.decodeDrawable(source);
+                    binding.profileImage.setImageDrawable(drawable);
+                    userProfileCreationViewModel.setProfileImageUrl(uri.toString());
+                    String uriString = uri.toString();
+                    uri = Uri.parse(uriString);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                binding.profileImage.setImageResource(R.drawable.default_profile_image);
+            }
+        });
     }
 
-    private void getUserName(View root) {
-        EditText editTextUsername = root.findViewById(R.id.editTextUsername);
-        editTextUsername.setOnEditorActionListener((v, actionId, event) -> {
+    private void callImagePickerDialog() {
+        binding.profileImage.setImageResource(R.drawable.default_profile_image);
+
+        binding.buttonProfileImageInteraction.setOnClickListener(
+                v -> imagePickerDialogFragment.show(getChildFragmentManager(), "ImagePickerDialogFragment"));
+    }
+
+    private void getUserName() {
+        binding.editTextUsername.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                String name = editTextUsername.getText().toString();
+                String name = binding.editTextUsername.getText().toString();
                 userProfileCreationViewModel.setName(name);
                 return true;
             } else {
@@ -82,11 +108,10 @@ public class UserProfileCreationFragment extends Fragment {
         });
     }
 
-    private void getAge(View root) {
-        EditText editTextAge = root.findViewById(R.id.editTextAge);
-        editTextAge.setOnEditorActionListener((v, actionId, event) -> {
+    private void getAge() {
+        binding.editTextAge.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                String ageString = editTextAge.getText().toString();
+                String ageString = binding.editTextAge.getText().toString();
                 if (!ageString.isEmpty()) {
                     int age = Integer.parseInt(ageString);
                     userProfileCreationViewModel.setAge(age);
@@ -102,11 +127,10 @@ public class UserProfileCreationFragment extends Fragment {
     }
 
 
-    private void getOtherInfo(View root) {
-        EditText editTextOtherInfo = root.findViewById(R.id.editTextOtherInfo);
-        editTextOtherInfo.setOnEditorActionListener((v, actionId, event) -> {
+    private void getOtherInfo() {
+        binding.editTextOtherInfo.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                String otherInfo = editTextOtherInfo.getText().toString();
+                String otherInfo = binding.editTextOtherInfo.getText().toString();
                 userProfileCreationViewModel.setOtherInfo(otherInfo);
                 return true;
             } else {
@@ -115,34 +139,34 @@ public class UserProfileCreationFragment extends Fragment {
         });
     }
 
-    private void createGenderRadioGroup(View root) {
+    private void createGenderRadioGroup() {
         genderDefaultRadioButton = null;
         HashMap<String, Integer> identifiers = new HashMap<>();
-        for (String gender : User.GENDERS) {
+        for (String gender : IUserModifiable.GENDERS) {
             RadioButton genderRadioButton = new RadioButton(getActivity());
-            int numericId = root.generateViewId();
+            int numericId = View.generateViewId();
             String alphabeticId = gender;
             identifiers.put(alphabeticId, numericId);
             genderRadioButton.setId(numericId);
             genderRadioButton.setText(gender);
 
-            if (!gender.equals(User.OTHER)) {
+            if (!gender.equals(IUserModifiable.OTHER)) {
                 genderRadioButton.setOnClickListener(v -> userProfileCreationViewModel.setGender(gender));
             }
 
-            if (gender.equals(User.NONE)) {
+            if (gender.equals(IUserModifiable.NONE)) {
                 genderDefaultRadioButton = genderRadioButton;
             }
 
-            genderRadioGroup.addView(genderRadioButton);
+            binding.radioGroupGender.addView(genderRadioButton);
         }
 
-        genderRadioGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            if (checkedId == identifiers.get(User.OTHER)) {
-                otherGenderIdentityEditText.setEnabled(true);
+        binding.radioGroupGender.setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId == identifiers.get(IUserModifiable.OTHER)) {
+                binding.otherGenderIdentityEditText.setEnabled(true);
                 getOtherGenderIdentity();
             } else {
-                otherGenderIdentityEditText.setEnabled(false);
+                binding.otherGenderIdentityEditText.setEnabled(false);
             }
         });
 
@@ -155,9 +179,9 @@ public class UserProfileCreationFragment extends Fragment {
     }
 
     private void getOtherGenderIdentity() {
-        otherGenderIdentityEditText.setOnEditorActionListener((v, actionId, event) -> {
+        binding.otherGenderIdentityEditText.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                String otherGenderIdentity = otherGenderIdentityEditText.getText().toString();
+                String otherGenderIdentity = binding.otherGenderIdentityEditText.getText().toString();
                 userProfileCreationViewModel.setGender(otherGenderIdentity);
                 return true;
             } else {
@@ -177,12 +201,13 @@ public class UserProfileCreationFragment extends Fragment {
 
             interestChip.setOnCheckedChangeListener((buttonView, isChecked) -> userProfileCreationViewModel.setInterestsMapItem(interest.getKey(), isChecked));
 
-            interestsChipGroup.addView(interestChip);
+            binding.chipGroupInterests.addView(interestChip);
         }
     }
 
     public void save() {
         // TODO: Save user data input in class User
+        userProfileCreationViewModel.saveUserToFirestore();
 
         Intent intent = new Intent(getActivity(), MainActivity.class);
         startActivity(intent);
@@ -192,9 +217,9 @@ public class UserProfileCreationFragment extends Fragment {
     }
 
     public void cancel() {
-        AbortRegistrationConfirmationDialog abortRegistrationConfirmationDialog = new AbortRegistrationConfirmationDialog(this);
-        abortRegistrationConfirmationDialog.setArguments(new Bundle());
-        abortRegistrationConfirmationDialog.show(getParentFragmentManager(), "AbortRegistrationConfirmationDialog");
+        AbortRegistrationConfirmationDialogFragment abortRegistrationConfirmationDialogFragment = new AbortRegistrationConfirmationDialogFragment(this);
+        abortRegistrationConfirmationDialogFragment.setArguments(new Bundle());
+        abortRegistrationConfirmationDialogFragment.show(getParentFragmentManager(), "AbortRegistrationConfirmationDialog");
     }
 
     public void onRegistrationAborted() {
@@ -202,4 +227,22 @@ public class UserProfileCreationFragment extends Fragment {
         getParentFragmentManager().popBackStack();
         Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void onImagePicked(Uri imageUri) {
+        if(imageUri != null) {
+            try {
+                ImageDecoder.Source source = ImageDecoder.createSource(requireContext().getContentResolver(), imageUri);
+                Drawable drawable = ImageDecoder.decodeDrawable(source);
+                this.binding.profileImage.setImageDrawable(drawable);
+                this.userProfileCreationViewModel.setProfileImageUrl(imageUri.toString());
+                String uriString = imageUri.toString();
+                imageUri = Uri.parse(uriString);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            this.binding.profileImage.setImageResource(R.drawable.default_profile_image);
+        }    }
 }

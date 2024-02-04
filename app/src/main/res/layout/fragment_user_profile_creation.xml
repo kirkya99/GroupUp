@@ -18,37 +18,20 @@
             android:contentDescription="Profile image"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.75"
-            app:srcCompat="@drawable/profile_image_placeholder" />
+            app:layout_constraintWidth_percent="0.75" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/buttonProfileImageInteraction"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="24dp"
-            android:text="Image from gallery"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.375"
-            app:layout_constraintStart_toEndOf="@+id/button2"
-            app:layout_constraintTop_toBottomOf="@+id/profileImage"
-            app:layout_constraintWidth_percent="0.35" />
-
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
             android:text="Image from camera"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.111"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/profileImage"
-            app:layout_constraintWidth_percent="0.35" />
+            app:layout_constraintWidth_percent="0.75" />
 
         <EditText
             android:id="@+id/editTextUsername"
@@ -62,7 +45,7 @@
             android:inputType="text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button2"
+            app:layout_constraintTop_toBottomOf="@+id/buttonProfileImageInteraction"
             app:layout_constraintWidth_percent="0.75" />
 
         <EditText

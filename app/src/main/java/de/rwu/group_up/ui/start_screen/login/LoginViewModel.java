@@ -5,12 +5,17 @@ import androidx.lifecycle.ViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import de.rwu.group_up.utils.UserManager;
+
 public class LoginViewModel extends ViewModel {
     public void handleLogin(String email, String password, OnLoginListener listener) {
         if (!email.isEmpty() && !password.isEmpty()) {
             FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    UserManager userManager = UserManager.getInstance();
+                    userManager.setUid(user.getUid());
+                    userManager.setEmail(user.getEmail());
                     listener.onSuccess(user);
                 } else {
                     listener.onFailure(task.getException().getMessage());

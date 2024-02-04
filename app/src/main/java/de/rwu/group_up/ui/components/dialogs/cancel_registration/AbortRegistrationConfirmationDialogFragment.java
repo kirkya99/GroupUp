@@ -1,24 +1,20 @@
-package de.rwu.group_up.ui.components.cancel_registration;
+package de.rwu.group_up.ui.components.dialogs.cancel_registration;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.material.snackbar.Snackbar;
-
-import de.rwu.group_up.StartActivity;
 import de.rwu.group_up.ui.start_screen.user_profile_creation.UserProfileCreationFragment;
 
-public class AbortRegistrationConfirmationDialog extends DialogFragment {
+public class AbortRegistrationConfirmationDialogFragment extends DialogFragment {
     private AbortRegistrationConfirmationViewModel abortRegistrationConfirmationViewModel;
     private UserProfileCreationFragment userProfileCreationFragment;
 
-    public AbortRegistrationConfirmationDialog(UserProfileCreationFragment userProfileCreationFragment){
+    public AbortRegistrationConfirmationDialogFragment(UserProfileCreationFragment userProfileCreationFragment){
         this.userProfileCreationFragment = userProfileCreationFragment;
     }
 

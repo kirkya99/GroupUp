@@ -1,30 +1,22 @@
-package de.rwu.group_up;
+package de.rwu.group_up.ui.main_screen;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.FirebaseAuth;
 
-import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
 
+import de.rwu.group_up.R;
 import de.rwu.group_up.databinding.ActivityMainBinding;
-import de.rwu.group_up.ui.all_groups.AllGroupsFragment;
-import de.rwu.group_up.ui.start_screen.login.LoginFragment;
-import de.rwu.group_up.ui.start_screen.login.LoginViewModel;
-import de.rwu.group_up.ui.my_groups.MyGroupsFragment;
-import de.rwu.group_up.ui.user_profile.edit.UserProfileEditFragment;
-import de.rwu.group_up.ui.user_profile.view.UserProfileDetailsFragment;
+import de.rwu.group_up.ui.main_screen.all_groups.list.AllGroupsFragment;
+import de.rwu.group_up.ui.main_screen.my_groups.list.MyGroupsFragment;
+import de.rwu.group_up.ui.main_screen.user_profile.edit.UserProfileEditFragment;
+import de.rwu.group_up.ui.main_screen.user_profile.details.UserProfileDetailsFragment;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnItemSelectedListener {
 

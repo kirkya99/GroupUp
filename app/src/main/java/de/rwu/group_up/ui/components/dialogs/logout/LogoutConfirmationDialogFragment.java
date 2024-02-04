@@ -1,4 +1,4 @@
-package de.rwu.group_up.ui.components.logout;
+package de.rwu.group_up.ui.components.dialogs.logout;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -9,9 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import de.rwu.group_up.StartActivity;
+import de.rwu.group_up.ui.start_screen.StartActivity;
 
-public class LogoutConfirmationDialog extends DialogFragment {
+public class LogoutConfirmationDialogFragment extends DialogFragment {
     private LogoutConfirmationViewModel logoutConfirmationViewModel;
 
     @NonNull

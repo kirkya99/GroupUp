@@ -1,4 +1,4 @@
-package de.rwu.group_up.ui.my_groups;
+package de.rwu.group_up.ui.main_screen.my_groups.list;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

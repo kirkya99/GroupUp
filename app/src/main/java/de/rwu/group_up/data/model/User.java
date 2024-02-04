@@ -1,12 +1,16 @@
-package de.rwu.group_up;
-
-import com.google.firebase.auth.FirebaseUser;
+package de.rwu.group_up.data.model;
 
 import java.util.HashMap;
 
-public class User implements IUserModifiable, IUserReadable{
+import de.rwu.group_up.utils.UserManager;
+
+public class User implements IUserModifiable, IUserReadable {
 
     public User() {
+        // set uid and email for newUser here?
+        UserManager userManager = UserManager.getInstance();
+        uid = userManager.getUid();
+        email = userManager.getUid();
         initInterestsMap();
     }
 
@@ -94,13 +98,6 @@ public class User implements IUserModifiable, IUserReadable{
         interestsMap.put("Movies and TV Series", false);
     }
 
-    public static final String NONE = "None";
-    public static final String MALE = "Male";
-    public static final String FEMALE = "Female";
-    public static final String NON_BINARY = "Non-binary";
-    public static final String OTHER = "Other gender identity";
-    public static final String[] GENDERS = {NONE, MALE, FEMALE, NON_BINARY, OTHER};
-
     private String uid;
     private String profileImageUrl;
     private String email;
@@ -112,6 +109,10 @@ public class User implements IUserModifiable, IUserReadable{
 
     public String getProfileImageUrl() {
         return profileImageUrl;
+    }
+
+    public String getUid() {
+        return uid;
     }
 
     public String getEmail() {
@@ -142,6 +143,10 @@ public class User implements IUserModifiable, IUserReadable{
         this.profileImageUrl = profileImageUrl;
     }
 
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -158,11 +163,37 @@ public class User implements IUserModifiable, IUserReadable{
         this.gender = gender;
     }
 
+    public void setInterestsMap(HashMap<String, Boolean> interestsMap) {
+        this.interestsMap = interestsMap;
+    }
+
     public void setInterestsMapItem(String key, Boolean value){
         interestsMap.put(key, value);
     }
 
     public void setOtherInfo(String otherInfo) {
         this.otherInfo = otherInfo;
+    }
+
+    public static HashMap<String, Object> toHashMap(User user) {
+        HashMap<String, Object> userHashMap = new HashMap<>();
+        userHashMap.put("userId", user.getUid());
+        userHashMap.put("name", user.getName());
+        userHashMap.put("age", user.getAge());
+        userHashMap.put("gender", user.getGender());
+        userHashMap.put("interestsMap", user.getInterestsMap());
+        userHashMap.put("otherInfo", user.getOtherInfo());
+        return userHashMap;
+    }
+
+    public static IUserModifiable fromHashMap(HashMap<String, Object> userHashMap) {
+        IUserModifiable user = new User();
+        user.setUid((String) userHashMap.get("userId"));
+        user.setName((String) userHashMap.get("name"));
+        user.setAge((int) userHashMap.get("age"));
+        user.setGender((String) userHashMap.get("gender"));
+        user.setInterestsMap((HashMap<String, Boolean>) userHashMap.get("interestsMap"));
+        user.setOtherInfo((String) userHashMap.get("otherInfo"));
+        return user;
     }
 }

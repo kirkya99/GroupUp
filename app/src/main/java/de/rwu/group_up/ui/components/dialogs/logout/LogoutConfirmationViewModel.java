@@ -1,4 +1,4 @@
-package de.rwu.group_up.ui.components.logout;
+package de.rwu.group_up.ui.components.dialogs.logout;
 
 import androidx.lifecycle.ViewModel;
 

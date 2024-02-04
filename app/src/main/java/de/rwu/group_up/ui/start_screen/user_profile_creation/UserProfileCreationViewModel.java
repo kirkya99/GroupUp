@@ -4,17 +4,20 @@ import androidx.lifecycle.ViewModel;
 
 import java.util.HashMap;
 
-import de.rwu.group_up.User;
-import de.rwu.group_up.IUserModifiable;
+import de.rwu.group_up.data.local.DatabaseController;
+import de.rwu.group_up.data.local.UserDatabaseController;
+import de.rwu.group_up.data.model.IUserModifiable;
+import de.rwu.group_up.data.model.User;
 
 
-public class UserProfileCreationViewModel extends ViewModel implements IUserModifiable{
+public class UserProfileCreationViewModel extends ViewModel{
 
     private IUserModifiable newUser;
     private HashMap<String, Boolean> interestsMap;
 
     public UserProfileCreationViewModel() {
         newUser = new User();
+        // set uid and email for newUser here?
         interestsMap = newUser.getInterestsMap();
     }
 
@@ -50,5 +53,8 @@ public class UserProfileCreationViewModel extends ViewModel implements IUserModi
         newUser.setOtherInfo(otherInfo);
     }
 
-
+    public void saveUserToFirestore() {
+        UserDatabaseController userDatabaseController = new DatabaseController();
+        userDatabaseController.createUserEntry();
+    }
 }

@@ -1,4 +1,4 @@
-package de.rwu.group_up;
+package de.rwu.group_up.ui.start_screen;
 
 import android.os.Bundle;
 import android.widget.Button;
@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import de.rwu.group_up.R;
 import de.rwu.group_up.ui.start_screen.launch.LaunchFragment;
 import de.rwu.group_up.ui.start_screen.login.LoginFragment;
 import de.rwu.group_up.ui.start_screen.register.RegisterFragment;

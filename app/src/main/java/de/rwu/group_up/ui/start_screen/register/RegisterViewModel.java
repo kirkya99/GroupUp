@@ -5,6 +5,9 @@ import androidx.lifecycle.ViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import de.rwu.group_up.data.model.User;
+import de.rwu.group_up.utils.UserManager;
+
 public class RegisterViewModel extends ViewModel {
     public void handleRegistration(String email, String password, OnRegistrationListener listener) {
         if (!email.isEmpty() && !password.isEmpty()) {
@@ -13,6 +16,9 @@ public class RegisterViewModel extends ViewModel {
                         if (task.isSuccessful()) {
                             // Registration successful
                             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                            UserManager userManager = UserManager.getInstance();
+                            userManager.setUid(user.getUid());
+                            userManager.setEmail(user.getEmail());
                             listener.onSuccess(user);
                         } else {
                             // Registration failed
