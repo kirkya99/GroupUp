@@ -75,6 +75,8 @@ public class DatabaseController implements UserDatabaseController {
                 .addOnSuccessListener(aVoid -> Log.d(this.TAG, "DocumentSnapshot successfully deleted!"))
                 .addOnFailureListener(e -> Log.e(this.TAG, "Error deleting document", e));
     }
+
+    // TODO: Create CRUD functions for the list of groups and the interface for limiting the access to only these functions. e.g. like the UserDataBaseController
 }
 
 

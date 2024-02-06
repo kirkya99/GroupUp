@@ -8,6 +8,7 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import de.rwu.group_up.R;
 import de.rwu.group_up.databinding.FragmentUserProfileEditBinding;
@@ -15,21 +16,20 @@ import de.rwu.group_up.databinding.FragmentUserProfileEditBinding;
 public class UserProfileEditFragment extends Fragment {
 
     private FragmentUserProfileEditBinding binding;
+    private UserProfileEditViewModel userProfileEditViewModel;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 //         Inflate the layout for this fragment
-        binding = FragmentUserProfileEditBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
+        this.binding = FragmentUserProfileEditBinding.inflate(inflater, container, false);
+        this.userProfileEditViewModel = new ViewModelProvider(this).get(UserProfileEditViewModel.class);
+
+        View root = this.binding.getRoot();
         requireActivity().setTitle("User Profile Edit");
 
-
-        Button buttonSave = root.findViewById(R.id.buttonSave);
-        Button buttonCancel = root.findViewById(R.id.buttonCancel);
-
-        buttonSave.setOnClickListener(v -> save());
-        buttonCancel.setOnClickListener(v -> cancel());
+        this.binding.buttonSave.setOnClickListener(v -> save());
+        this.binding.buttonCancel.setOnClickListener(v -> cancel());
         return root;
     }
 
