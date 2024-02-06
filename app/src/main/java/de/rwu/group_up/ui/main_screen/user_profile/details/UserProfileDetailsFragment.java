@@ -71,7 +71,7 @@ public class UserProfileDetailsFragment extends Fragment {
 
             this.binding.textViewEmailContent.setText(iUserReadable.getEmail());
 
-            this.binding.textViewAgeContent.setText(iUserReadable.getAge());
+            this.binding.textViewAgeContent.setText(String.valueOf(iUserReadable.getAge()));
 
             this.binding.textViewGenderContent.setText(iUserReadable.getGender());
 

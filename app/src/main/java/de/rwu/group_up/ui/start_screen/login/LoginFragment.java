@@ -87,7 +87,7 @@ public class LoginFragment extends BaseForm {
     }
 
     private void debugLogin(){
-        editTextEmail.setText("fschott977@gmail.com");
+        editTextEmail.setText("test@fire.net");
         editTextPassword.setText("123456");
     }
 }

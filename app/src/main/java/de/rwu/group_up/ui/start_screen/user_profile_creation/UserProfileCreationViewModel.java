@@ -10,19 +10,17 @@ import de.rwu.group_up.data.model.IUserModifiable;
 import de.rwu.group_up.data.model.User;
 
 
-public class UserProfileCreationViewModel extends ViewModel{
+public class UserProfileCreationViewModel extends ViewModel {
 
     private IUserModifiable newUser;
-    private HashMap<String, Boolean> interestsMap;
 
     public UserProfileCreationViewModel() {
-        newUser = new User();
+        this.newUser = new User();
         // set uid and email for newUser here?
-        interestsMap = newUser.getInterestsMap();
     }
 
     public HashMap<String, Boolean> getInterestsMap() {
-        return interestsMap;
+        return this.newUser.getInterestsMap();
     }
 
     public void setProfileImageUrl(String profileImageUrl) {
@@ -30,32 +28,32 @@ public class UserProfileCreationViewModel extends ViewModel{
     }
 
     public void setEmail(String email) {
-        newUser.setEmail(email);
+        this.newUser.setEmail(email);
     }
 
     public void setName(String name) {
-        newUser.setName(name);
+        this.newUser.setName(name);
     }
 
     public void setAge(int age) {
-        newUser.setAge(age);
+        this.newUser.setAge(age);
     }
 
     public void setGender(String gender) {
-        newUser.setGender(gender);
+        this.newUser.setGender(gender);
     }
 
     public void setInterestsMapItem(String key, Boolean value) {
-        interestsMap.put(key, value);
+        this.newUser.getInterestsMap().put(key, value);
     }
 
     public void setOtherInfo(String otherInfo) {
-        newUser.setOtherInfo(otherInfo);
+        this.newUser.setOtherInfo(otherInfo);
     }
 
     public void saveUserToFirestore() {
         UserDatabaseController userDatabaseController = new DatabaseController();
-        userDatabaseController.createUserEntry(User.toHashMap((User) newUser));
+        userDatabaseController.createUserEntry(User.toHashMap((User) this.newUser));
     }
 
     public int parseInteger(String input) {

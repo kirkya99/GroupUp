@@ -54,15 +54,15 @@ public class UserProfileCreationFragment extends Fragment implements IImagePicke
         imagePickerViewModel = new ViewModelProvider(requireActivity()).get(ImagePickerViewModel.class);
 
         requireActivity().setTitle("User Profile Creation");
-        createGenderRadioGroup();
-        createInterestsChipList();
+        this.createGenderRadioGroup();
+        this.createInterestsChipList();
 
         // Extract content from creation fragment
-        callImagePickerDialog();
+        this.callImagePickerDialog();
 //        getProfileImage();
-        getUserName();
-        getAge();
-        getOtherInfo();
+        this.getUserName();
+        this.getAge();
+        this.getOtherInfo();
 
         binding.buttonSave.setOnClickListener(v -> save());
         binding.buttonCancel.setOnClickListener(v -> cancel());
@@ -126,10 +126,10 @@ public class UserProfileCreationFragment extends Fragment implements IImagePicke
 
             @Override
             public void afterTextChanged(Editable s) {
-                int number = userProfileCreationViewModel.parseInteger(s.toString());
-                if (number != Integer.MIN_VALUE) {
+                int age = userProfileCreationViewModel.parseInteger(s.toString());
+                if (age != Integer.MIN_VALUE) {
                     // Integer parsed successfully, you can save it or use it as needed
-                    userProfileCreationViewModel.setAge(number);
+                    userProfileCreationViewModel.setAge(age);
                 } else {
                     Snackbar.make(requireView(), "Error: Invalid input!", Snackbar.LENGTH_SHORT).show();
                 }
@@ -159,39 +159,33 @@ public class UserProfileCreationFragment extends Fragment implements IImagePicke
         genderDefaultRadioButton = null;
         HashMap<String, Integer> identifiers = new HashMap<>();
         for (String gender : IUserModifiable.GENDERS) {
-            RadioButton genderRadioButton = new RadioButton(getActivity());
-            int numericId = View.generateViewId();
-            String alphabeticId = gender;
-            identifiers.put(alphabeticId, numericId);
-            genderRadioButton.setId(numericId);
-            genderRadioButton.setText(gender);
-
-            if (!gender.equals(IUserModifiable.OTHER)) {
-                genderRadioButton.setOnClickListener(v -> userProfileCreationViewModel.setGender(gender));
-            }
-
-            if (gender.equals(IUserModifiable.NONE)) {
-                genderDefaultRadioButton = genderRadioButton;
-            }
-
-            binding.radioGroupGender.addView(genderRadioButton);
+            identifiers.put(gender, this.createGenderRadioButton(gender));
         }
 
+        this.setGenderChangeListener(identifiers);
+
+        binding.radioGroupGender.check(identifiers.get(IUserModifiable.NONE));
+    }
+
+    private int createGenderRadioButton(String gender) {
+        RadioButton genderRadioButton = new RadioButton(getActivity());
+        int numericId = View.generateViewId();
+        genderRadioButton.setId(numericId);
+        genderRadioButton.setText(gender);
+
+        binding.radioGroupGender.addView(genderRadioButton);
+        return numericId;
+    }
+
+    private void setGenderChangeListener(HashMap<String, Integer> identifiers){
         binding.radioGroupGender.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == identifiers.get(IUserModifiable.OTHER)) {
                 binding.otherGenderIdentityEditText.setEnabled(true);
-                getOtherGenderIdentity();
+                this.getOtherGenderIdentity();
             } else {
                 binding.otherGenderIdentityEditText.setEnabled(false);
             }
         });
-
-        if (genderDefaultRadioButton != null) {
-            genderDefaultRadioButton.setChecked(true);
-        }
-
-        RadioButton otherGenderIdentityRadioButton = new RadioButton(getActivity());
-        otherGenderIdentityRadioButton.setText("Other gender identity");
     }
 
     private void getOtherGenderIdentity() {
@@ -206,7 +200,7 @@ public class UserProfileCreationFragment extends Fragment implements IImagePicke
 
             @Override
             public void afterTextChanged(Editable s) {
-                UserProfileCreationFragment.this.userProfileCreationViewModel.setOtherInfo(s.toString());
+                UserProfileCreationFragment.this.userProfileCreationViewModel.setGender(s.toString());
             }
         });
     }
@@ -227,7 +221,6 @@ public class UserProfileCreationFragment extends Fragment implements IImagePicke
     }
 
     public void save() {
-        // TODO: Save user data input in class User
         userProfileCreationViewModel.saveUserToFirestore();
 
         Intent intent = new Intent(getActivity(), MainActivity.class);
