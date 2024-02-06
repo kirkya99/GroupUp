@@ -4,18 +4,25 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import de.rwu.group_up.data.model.IUserReadable;
+import de.rwu.group_up.data.model.User;
+
 public class UserProfileDetailsViewModel extends ViewModel {
 
-    private final MutableLiveData<String> mText;
+
+
+    private MutableLiveData<IUserReadable> mUser;
 
     public UserProfileDetailsViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is user profile fragment");
+        this.mUser = new MutableLiveData<>();
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public LiveData<IUserReadable> getUser() {
+        return this.mUser;
     }
 
+    public void setUser(User user) {
+        this.mUser.setValue(user);
+    }
 
 }

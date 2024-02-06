@@ -55,6 +55,17 @@ public class UserProfileCreationViewModel extends ViewModel{
 
     public void saveUserToFirestore() {
         UserDatabaseController userDatabaseController = new DatabaseController();
-        userDatabaseController.createUserEntry();
+        userDatabaseController.createUserEntry(User.toHashMap((User) newUser));
+    }
+
+    public int parseInteger(String input) {
+        try {
+            // Attempt to parse the input string to an integer
+            return Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            // Handle the case where parsing fails
+            // For example, return a special value to indicate parsing failure
+            return Integer.MIN_VALUE;
+        }
     }
 }

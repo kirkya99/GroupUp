@@ -3,9 +3,11 @@ package de.rwu.group_up.ui.components.dialogs.image_picker;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 
@@ -18,20 +20,35 @@ import androidx.core.content.FileProvider;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 public class ImagePickerDialogFragment extends DialogFragment {
     private ImagePickerViewModel imagePickerViewModel;
     private IImagePickerListener imagePickerListener;
     private static final String TAG = "ImagePickerDialogFragment";
 
-    private ActivityResultLauncher<Uri> takePicture;
+    private ActivityResultLauncher<Intent> takeImageResultLauncher;
 
+    private ActivityResultLauncher<Uri> takePicture;
+//
 //    private ActivityResultLauncher<Intent> mGetContent;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.imagePickerViewModel = new ViewModelProvider(this).get(ImagePickerViewModel.class);
+
+        this.takeImageResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if(result.getResultCode() == Activity.RESULT_OK) {
+                        // Do something
+                    }
+                });
 //        this.mGetContent = registerForActivityResult(
 //                new ActivityResultContracts.StartActivityForResult(),
 //                result -> {
@@ -40,6 +57,7 @@ public class ImagePickerDialogFragment extends DialogFragment {
 //                        Intent data = result.getData();
 //                        if (data != null && data.getData() != null) {
 //                            Uri imageUri = data.getData();
+//                            this.imagePickerListener.onImagePicked(imageUri);
 //
 //                            Log.e(TAG, "Result code: " + imageUri.toString());
 //
@@ -50,7 +68,6 @@ public class ImagePickerDialogFragment extends DialogFragment {
 //                    }
 //                }
 //        );
-
         this.takePicture = registerForActivityResult(
                 new ActivityResultContracts.TakePicture(), result -> {
                     if(result) {
@@ -59,8 +76,7 @@ public class ImagePickerDialogFragment extends DialogFragment {
                         Log.e(TAG, "Image was not saved");
                     }
                 });
-
-        this.imagePickerViewModel.setImageUri(getContext());
+        this.imagePickerViewModel.setImageUri(getActivity());
     }
 
     @NonNull
@@ -76,6 +92,7 @@ public class ImagePickerDialogFragment extends DialogFragment {
 //                    this.openGallery(mGetContent);
                     break;
                 case 1:
+//                    this.dispatchTakePictureIntent();
                     this.takePicture.launch(this.imagePickerViewModel.getImageUri());
                     this.imagePickerListener.onImagePicked(this.imagePickerViewModel.getImageUri());
                     break;
@@ -94,12 +111,44 @@ public class ImagePickerDialogFragment extends DialogFragment {
         mGetContent.launch(gallery);
     }
 
-    public void dispatchTakePictureIntent(ActivityResultLauncher<Intent> mGetContent) {
+    public void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        mGetContent.launch(takePictureIntent);
+//        Context context = getActivity();
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            File imageFile = null;
+            try {
+                imageFile = this.createImageFile();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+            if (imageFile != null) {
+                Uri imageUri = FileProvider.getUriForFile(getActivity(),
+                        "de.rwu.group_up.fileprovider",
+                        imageFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                this.takeImageResultLauncher.launch(takePictureIntent);
+                this.imagePickerListener.onImagePicked(imageUri);
+            }
+        }
     }
 
     public void setImagePickerListener(IImagePickerListener listener) {
         this.imagePickerListener = listener;
+    }
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        return image;
     }
 }

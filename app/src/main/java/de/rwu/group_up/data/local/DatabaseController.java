@@ -3,10 +3,16 @@ package de.rwu.group_up.data.local;
 import android.util.Log;
 
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import de.rwu.group_up.data.model.IUserModifiable;
+import de.rwu.group_up.data.model.IUserReadable;
 import de.rwu.group_up.data.model.User;
 import de.rwu.group_up.utils.UserManager;
 
@@ -25,36 +31,38 @@ public class DatabaseController implements UserDatabaseController {
     }
 
     @Override
-    public void createUserEntry(User user) {
+    public void createUserEntry(HashMap<String, Object> userEntryHashMap) {
         this.firebaseFirestore.collection(this.USERS)
                 .document(this.userId)
-                .set(user)
+                .set(userEntryHashMap)
                 .addOnSuccessListener(aVoid -> Log.d(this.TAG, "User data added with UID: " + this.userId))
                 .addOnFailureListener(e -> Log.w(this.TAG, "Error adding user data", e));
     }
 
     @Override
-    public User readUserEntry() {
-        DocumentReference userDocumentReference = firebaseFirestore.collection(this.USERS).document(this.userId);
-        final User[] user = new User[1];
-        userDocumentReference.get().addOnSuccessListener(documentSnapshot -> {
-            if (documentSnapshot.exists()) {
-                user[0] = documentSnapshot.toObject(User.class);
-                Log.d(this.TAG, "User retrieved: " + user[0].toString());
-            } else {
-                Log.d(this.TAG, "No such document");
-            }
-        }).addOnFailureListener(e -> {
-            Log.e(this.TAG, "Error fetching user: ", e);
-        });
-        return user[0];
+    public void readUserEntry(OnReadUserEntryListener listener) {
+        DocumentReference userEntryReference = firebaseFirestore.collection(USERS).document(this.userId);
+
+        userEntryReference.get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        Map<String, Object> userData = documentSnapshot.getData();
+                        User user = User.fromHashMap(userData);
+                        listener.onSuccess(user);
+                    } else {
+                        listener.onFailure("User entry does not exist");
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    listener.onFailure("Error reading user entry: " + e.getMessage());
+                });
     }
 
     @Override
-    public void updateUserEntry(User user) {
+    public void updateUserEntry(HashMap<String, Object> userEntryHashMap) {
         DocumentReference userDocumentReference = firebaseFirestore.collection(this.USERS).document(this.userId);
 
-        userDocumentReference.set(user)
+        userDocumentReference.update(userEntryHashMap)
                 .addOnSuccessListener(aVoid -> Log.d(this.TAG, "DocumentSnapshot successfully updated!"))
                 .addOnFailureListener(e -> Log.e(this.TAG, "Error updating document", e));
     }

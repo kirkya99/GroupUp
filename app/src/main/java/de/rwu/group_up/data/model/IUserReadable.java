@@ -4,12 +4,12 @@ import java.util.HashMap;
 
 public interface IUserReadable {
 
-    static final String NONE = "None";
-    static final String MALE = "Male";
-    static final String FEMALE = "Female";
-    static final String NON_BINARY = "Non-binary";
-    static final String OTHER = "Other gender identity";
-    static final String[] GENDERS = {NONE, MALE, FEMALE, NON_BINARY, OTHER};
+    String NONE = "None";
+    String MALE = "Male";
+    String FEMALE = "Female";
+    String NON_BINARY = "Non-binary";
+    String OTHER = "Other gender identity";
+    String[] GENDERS = {NONE, MALE, FEMALE, NON_BINARY, OTHER};
 
     String getUid();
 

@@ -7,16 +7,23 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.chip.Chip;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import de.rwu.group_up.R;
+import de.rwu.group_up.data.local.DatabaseController;
+import de.rwu.group_up.data.local.UserDatabaseController;
+import de.rwu.group_up.data.model.User;
 import de.rwu.group_up.databinding.FragmentUserProfileDetailsBinding;
 import de.rwu.group_up.ui.components.dialogs.logout.LogoutConfirmationDialogFragment;
 import de.rwu.group_up.ui.main_screen.user_profile.edit.UserProfileEditFragment;
@@ -26,17 +33,60 @@ public class UserProfileDetailsFragment extends Fragment {
     private FragmentUserProfileDetailsBinding binding;
     private UserProfileDetailsViewModel userProfileDetailsViewModel;
 
+    private void readCurrentUserEntry() {
+        UserDatabaseController userDatabaseController = new DatabaseController();
+        userDatabaseController.readUserEntry(new UserDatabaseController.OnReadUserEntryListener() {
+            @Override
+            public void onSuccess(User user) {
+                userProfileDetailsViewModel.setUser(user);
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                Snackbar.make(requireView(), errorMessage, Snackbar.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        this.readCurrentUserEntry();
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         userProfileDetailsViewModel =
                 new ViewModelProvider(this).get(UserProfileDetailsViewModel.class);
 
-        binding = FragmentUserProfileDetailsBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-        requireActivity().setTitle("User Profile Details");
+        this.binding = FragmentUserProfileDetailsBinding.inflate(inflater, container, false);
+        View root = this.binding.getRoot();
+        this.requireActivity().setTitle("User Profile Details");
 
-        final TextView textView = binding.textHome;
-        userProfileDetailsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        // TODO: Create user details page here
+
+        this.userProfileDetailsViewModel.getUser().observe(getViewLifecycleOwner(), iUserReadable -> {
+
+            this.binding.textViewNameContent.setText(iUserReadable.getName());
+
+            this.binding.textViewEmailContent.setText(iUserReadable.getEmail());
+
+            this.binding.textViewAgeContent.setText(iUserReadable.getAge());
+
+            this.binding.textViewGenderContent.setText(iUserReadable.getGender());
+
+            HashMap<String, Boolean> interestsMap = iUserReadable.getInterestsMap();
+            for (Map.Entry<String, Boolean> interest : interestsMap.entrySet()) {
+                if(interest.getValue()) {
+                    Chip interestChip = new Chip(getActivity());
+                    interestChip.setText(interest.getKey());
+                    interestChip.setChecked(interest.getValue());
+                    binding.chipGroupInterestsContent.addView(interestChip);
+                }
+            }
+
+            this.binding.textViewOtherInfoContent.setText(iUserReadable.getOtherInfo());
+        });
 
         FloatingActionButton editButton = root.findViewById(R.id.editUserProfileBtn);
         editButton.setOnClickListener(v -> navigateToUserProfileEditFragment());
@@ -47,7 +97,7 @@ public class UserProfileDetailsFragment extends Fragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.user_profile_details_menu, menu);
     }
 
@@ -70,7 +120,7 @@ public class UserProfileDetailsFragment extends Fragment {
         fragmentTransaction.commit();
     }
 
-    private void showLogoutConfirmationDialog(){
+    private void showLogoutConfirmationDialog() {
         LogoutConfirmationDialogFragment logoutConfirmationDialogFragment = new LogoutConfirmationDialogFragment();
         logoutConfirmationDialogFragment.setArguments(new Bundle());
         logoutConfirmationDialogFragment.show(getParentFragmentManager(), "LogoutConfirmationDialog");

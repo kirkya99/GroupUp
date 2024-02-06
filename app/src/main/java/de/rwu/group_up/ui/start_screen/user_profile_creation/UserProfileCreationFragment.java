@@ -7,6 +7,8 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,9 +71,8 @@ public class UserProfileCreationFragment extends Fragment implements IImagePicke
     }
 
     private void getProfileImage() {
-
         imagePickerViewModel.getSelectedImageUri().observe(getViewLifecycleOwner(), uri -> {
-            if(uri != null) {
+            if (uri != null) {
                 try {
                     ImageDecoder.Source source = ImageDecoder.createSource(requireContext().getContentResolver(), uri);
                     Drawable drawable = ImageDecoder.decodeDrawable(source);
@@ -92,49 +93,64 @@ public class UserProfileCreationFragment extends Fragment implements IImagePicke
     private void callImagePickerDialog() {
         binding.profileImage.setImageResource(R.drawable.default_profile_image);
 
-        binding.buttonProfileImageInteraction.setOnClickListener(
+        binding.profileImage.setOnClickListener(
                 v -> imagePickerDialogFragment.show(getChildFragmentManager(), "ImagePickerDialogFragment"));
     }
 
     private void getUserName() {
-        binding.editTextUsername.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                String name = binding.editTextUsername.getText().toString();
-                userProfileCreationViewModel.setName(name);
-                return true;
-            } else {
-                return false;
+        binding.editTextUsername.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                userProfileCreationViewModel.setName(s.toString());
             }
         });
     }
 
     private void getAge() {
-        binding.editTextAge.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                String ageString = binding.editTextAge.getText().toString();
-                if (!ageString.isEmpty()) {
-                    int age = Integer.parseInt(ageString);
-                    userProfileCreationViewModel.setAge(age);
-                    return true;
+        binding.editTextAge.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                int number = userProfileCreationViewModel.parseInteger(s.toString());
+                if (number != Integer.MIN_VALUE) {
+                    // Integer parsed successfully, you can save it or use it as needed
+                    userProfileCreationViewModel.setAge(number);
                 } else {
-                    // Handle empty age input
-                    return false;
+                    Snackbar.make(requireView(), "Error: Invalid input!", Snackbar.LENGTH_SHORT).show();
                 }
-            } else {
-                return false;
             }
         });
     }
 
 
     private void getOtherInfo() {
-        binding.editTextOtherInfo.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                String otherInfo = binding.editTextOtherInfo.getText().toString();
-                userProfileCreationViewModel.setOtherInfo(otherInfo);
-                return true;
-            } else {
-                return false;
+        binding.editTextOtherInfo.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                userProfileCreationViewModel.setOtherInfo(s.toString());
             }
         });
     }
@@ -179,13 +195,18 @@ public class UserProfileCreationFragment extends Fragment implements IImagePicke
     }
 
     private void getOtherGenderIdentity() {
-        binding.otherGenderIdentityEditText.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                String otherGenderIdentity = binding.otherGenderIdentityEditText.getText().toString();
-                userProfileCreationViewModel.setGender(otherGenderIdentity);
-                return true;
-            } else {
-                return false;
+        binding.otherGenderIdentityEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                UserProfileCreationFragment.this.userProfileCreationViewModel.setOtherInfo(s.toString());
             }
         });
     }
@@ -230,7 +251,7 @@ public class UserProfileCreationFragment extends Fragment implements IImagePicke
 
     @Override
     public void onImagePicked(Uri imageUri) {
-        if(imageUri != null) {
+        if (imageUri != null) {
             try {
                 ImageDecoder.Source source = ImageDecoder.createSource(requireContext().getContentResolver(), imageUri);
                 Drawable drawable = ImageDecoder.decodeDrawable(source);
@@ -244,5 +265,6 @@ public class UserProfileCreationFragment extends Fragment implements IImagePicke
             }
         } else {
             this.binding.profileImage.setImageResource(R.drawable.default_profile_image);
-        }    }
+        }
+    }
 }

@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Group-Up</string>
-    <string name="user_profile_details">User Profile</string>
+    <string name="user_profile_details_title">User Profile Details</string>
     <string name="my_groups">My Groups</string>
     <string name="all_groups">ALl Groups</string>
     <string name="title_user_profile">User</string>
@@ -28,4 +28,20 @@
     <string name="do_you_want_to_logout">Do you want to logout?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="user_details_name">Name:</string>
+    <string name="user_details_email">Email:</string>
+    <string name="user_details_gender">Gender:</string>
+    <string name="user_details_age">Age:</string>
+    <string name="user_details_interests">Interests:</string>
+    <string name="user_details_other_info">Other info:</string>
+    <string name="age">Age</string>
+    <string name="other_information">Other Information</string>
+    <string name="name">Name</string>
+    <string name="other_gender_identity">Other gender identity</string>
+    <string name="profile_image">Profile image</string>
+    <string name="select_gender">Select gender</string>
+    <string name="choose_profile_image">Choose profile image</string>
+    <string name="personal_information">Personal Information</string>
+    <string name="profile_image_selection">Profile Image Selection</string>
+    <string name="about_me">About me</string>
 </resources>

@@ -1,6 +1,7 @@
 package de.rwu.group_up.data.model;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import de.rwu.group_up.utils.UserManager;
 
@@ -10,7 +11,7 @@ public class User implements IUserModifiable, IUserReadable {
         // set uid and email for newUser here?
         UserManager userManager = UserManager.getInstance();
         uid = userManager.getUid();
-        email = userManager.getUid();
+        email = userManager.getEmail();
         initInterestsMap();
     }
 
@@ -181,16 +182,16 @@ public class User implements IUserModifiable, IUserReadable {
         userHashMap.put("name", user.getName());
         userHashMap.put("age", user.getAge());
         userHashMap.put("gender", user.getGender());
-        userHashMap.put("interestsMap", user.getInterestsMap());
+        userHashMap.put("interestsMap", new HashMap<>(user.getInterestsMap())); // Defensive copy
         userHashMap.put("otherInfo", user.getOtherInfo());
         return userHashMap;
     }
 
-    public static IUserModifiable fromHashMap(HashMap<String, Object> userHashMap) {
-        IUserModifiable user = new User();
+    public static User fromHashMap(Map<String, Object> userHashMap) {
+        User user = new User();
         user.setUid((String) userHashMap.get("userId"));
         user.setName((String) userHashMap.get("name"));
-        user.setAge((int) userHashMap.get("age"));
+        user.setAge(((Long) userHashMap.get("age")).intValue()); // Firestore returns age as Long
         user.setGender((String) userHashMap.get("gender"));
         user.setInterestsMap((HashMap<String, Boolean>) userHashMap.get("interestsMap"));
         user.setOtherInfo((String) userHashMap.get("otherInfo"));
