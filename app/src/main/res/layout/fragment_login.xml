@@ -8,7 +8,7 @@
     android:paddingTop="?attr/actionBarSize">
 
     <EditText
-        android:id="@+id/editTextUsername"
+        android:id="@+id/inputEmailLogin"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginTop="4dp"
@@ -22,10 +22,10 @@
         app:layout_constraintWidth_percent="0.75" />
 
     <EditText
-        android:id="@+id/editTextPassword"
+        android:id="@+id/inputPasswordLogin"
         android:layout_width="0dp"
         android:layout_height="48dp"
-        android:layout_below="@id/editTextUsername"
+        android:layout_below="@id/inputEmailLogin"
         android:layout_marginTop="8dp"
         android:height="48dp"
         android:autofillHints="@string/password"
@@ -33,39 +33,39 @@
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextUsername"
+        app:layout_constraintTop_toBottomOf="@+id/inputEmailLogin"
         app:layout_constraintWidth_percent="0.75" />
 
     <Button
-        android:id="@+id/buttonLogin"
+        android:id="@+id/buttonLoginLogin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editTextPassword"
+        android:layout_below="@id/inputPasswordLogin"
         android:layout_marginTop="16dp"
         android:text="@string/login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPassword"
+        app:layout_constraintTop_toBottomOf="@+id/inputPasswordLogin"
         app:layout_constraintWidth_percent="0.75" />
 
     <Button
         android:id="@+id/buttonResetPassword"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editTextPassword"
+        android:layout_below="@id/inputPasswordLogin"
         android:layout_marginTop="16dp"
         android:autofillHints="@string/resetPassword"
         android:text="@string/resetPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonLogin"
+        app:layout_constraintTop_toBottomOf="@+id/buttonLoginLogin"
         app:layout_constraintWidth_percent="0.75" />
 
     <Button
         android:id="@+id/buttonCancelLogin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editTextPassword"
+        android:layout_below="@id/inputPasswordLogin"
         android:layout_marginTop="16dp"
         android:text="@string/cancel"
         app:layout_constraintEnd_toEndOf="parent"

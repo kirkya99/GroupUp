@@ -8,9 +8,21 @@ import com.google.firebase.auth.FirebaseUser;
 import de.rwu.group_up.utils.UserManager;
 
 public class LoginViewModel extends ViewModel {
-    public void handleLogin(String email, String password, OnLoginListener listener) {
-        if (!email.isEmpty() && !password.isEmpty()) {
-            FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+
+    private String email;
+    private String password;
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void handleLogin(OnLoginListener listener) {
+        if (!this.email.isEmpty() && !this.password.isEmpty() || this.email == null || this.password == null) {
+            FirebaseAuth.getInstance().signInWithEmailAndPassword(this.email, this.password).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                     UserManager userManager = UserManager.getInstance();
@@ -26,10 +38,10 @@ public class LoginViewModel extends ViewModel {
         }
     }
 
-    public void handlePasswordReset(String email, OnPasswordResetListener listener) {
+    public void handlePasswordReset(OnPasswordResetListener listener) {
         FirebaseAuth auth = FirebaseAuth.getInstance();
-        if (!email.isEmpty()) {
-            auth.sendPasswordResetEmail(email)
+        if (!this.email.isEmpty() || this.email == null) {
+            auth.sendPasswordResetEmail(this.email)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             listener.onSuccess("Password reset email sent successfully");

@@ -124,8 +124,12 @@ public class User implements IUserModifiable, IUserReadable {
         return name;
     }
 
-    public int getAge() {
+    public int getNumericAge() {
         return age;
+    }
+
+    public String getStringAge(){
+        return String.valueOf(this.age);
     }
 
     public String getGender() {
@@ -156,8 +160,15 @@ public class User implements IUserModifiable, IUserReadable {
         this.name = name;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setAge(String age) {
+        try {
+            // Attempt to parse the input string to an integer
+            this.age = Integer.parseInt(age);
+        } catch (NumberFormatException e) {
+            // Handle the case where parsing fails
+            // For example, return a special value to indicate parsing failure
+            this.age = Integer.MIN_VALUE;
+        }
     }
 
     public void setGender(String gender) {
@@ -180,7 +191,7 @@ public class User implements IUserModifiable, IUserReadable {
         HashMap<String, Object> userHashMap = new HashMap<>();
         userHashMap.put("userId", user.getUid());
         userHashMap.put("name", user.getName());
-        userHashMap.put("age", user.getAge());
+        userHashMap.put("age", user.getNumericAge());
         userHashMap.put("gender", user.getGender());
         userHashMap.put("interestsMap", new HashMap<>(user.getInterestsMap())); // Defensive copy
         userHashMap.put("otherInfo", user.getOtherInfo());
@@ -191,7 +202,7 @@ public class User implements IUserModifiable, IUserReadable {
         User user = new User();
         user.setUid((String) userHashMap.get("userId"));
         user.setName((String) userHashMap.get("name"));
-        user.setAge(((Long) userHashMap.get("age")).intValue()); // Firestore returns age as Long
+        user.setAge(((String) userHashMap.get("age").toString()));
         user.setGender((String) userHashMap.get("gender"));
         user.setInterestsMap((HashMap<String, Boolean>) userHashMap.get("interestsMap"));
         user.setOtherInfo((String) userHashMap.get("otherInfo"));

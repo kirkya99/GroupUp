@@ -19,7 +19,9 @@ public interface IUserReadable {
 
     String getName();
 
-    int getAge();
+    int getNumericAge();
+
+    String getStringAge();
 
     String getGender();
 

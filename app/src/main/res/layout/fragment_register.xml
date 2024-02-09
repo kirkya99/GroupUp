@@ -9,7 +9,7 @@
     tools:context=".ui.start_screen.register.RegisterFragment">
 
     <EditText
-        android:id="@+id/editTextUsername"
+        android:id="@+id/inputEmailRegister"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginTop="4dp"
@@ -23,10 +23,10 @@
         app:layout_constraintWidth_percent="0.75" />
 
     <EditText
-        android:id="@+id/editTextPassword"
+        android:id="@+id/inputPasswordRegister"
         android:layout_width="0dp"
         android:layout_height="48dp"
-        android:layout_below="@id/editTextUsername"
+        android:layout_below="@id/inputEmailRegister"
         android:layout_marginTop="8dp"
         android:height="48dp"
         android:autofillHints="@string/password"
@@ -34,30 +34,30 @@
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextUsername"
+        app:layout_constraintTop_toBottomOf="@+id/inputEmailRegister"
         app:layout_constraintWidth_percent="0.75" />
 
     <Button
-        android:id="@+id/buttonLogin"
+        android:id="@+id/buttonRegisterRegister"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editTextPassword"
+        android:layout_below="@id/inputPasswordRegister"
         android:layout_marginTop="16dp"
         android:text="@string/register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPassword"
+        app:layout_constraintTop_toBottomOf="@+id/inputPasswordRegister"
         app:layout_constraintWidth_percent="0.75" />
 
     <Button
         android:id="@+id/buttonCancelRegister"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editTextPassword"
+        android:layout_below="@id/inputPasswordRegister"
         android:layout_marginTop="16dp"
         android:text="@string/cancel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonLogin"
+        app:layout_constraintTop_toBottomOf="@+id/buttonRegisterRegister"
         app:layout_constraintWidth_percent="0.75" />
 </androidx.constraintlayout.widget.ConstraintLayout>

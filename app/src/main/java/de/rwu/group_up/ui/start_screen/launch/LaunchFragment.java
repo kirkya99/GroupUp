@@ -36,8 +36,8 @@ public class LaunchFragment extends Fragment {
 
         requireActivity().setTitle("GroupUp");
 
-        this.binding.buttonLogin.setOnClickListener(v -> showLoginFragment());
-        this.binding.buttonRegister.setOnClickListener(v -> showRegisterFragment());
+        this.binding.buttonLoginLaunch.setOnClickListener(v -> showLoginFragment());
+        this.binding.buttonRegisterLaunch.setOnClickListener(v -> showRegisterFragment());
 
         return root;
     }

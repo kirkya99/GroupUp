@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:id="@+id/profileImage"
+                    android:id="@+id/profileImageUserCreation"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -41,7 +41,7 @@
                     app:srcCompat="@drawable/default_profile_image" />
 
                 <Button
-                    android:id="@+id/buttonChooseImage"
+                    android:id="@+id/buttonChooseImageUserCreation"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -52,7 +52,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/profileImage" />
+                    app:layout_constraintTop_toBottomOf="@+id/profileImageUserCreation" />
 
                 <TextView
                     android:id="@+id/textViewProfileImageHeader"
@@ -88,7 +88,7 @@
 
                 <!-- Name -->
                 <EditText
-                    android:id="@+id/editTextUsername"
+                    android:id="@+id/inputNameUserEdit"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="16dp"
@@ -107,7 +107,7 @@
                 <!-- Age -->
 
                 <EditText
-                    android:id="@+id/editTextEmail"
+                    android:id="@+id/inputEmailUserEdit"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="16dp"
@@ -119,11 +119,11 @@
                     android:inputType="textEmailAddress"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextUsername" />
+                    app:layout_constraintTop_toBottomOf="@+id/inputNameUserEdit" />
 
                 <!-- Gender -->
                 <EditText
-                    android:id="@+id/editTextAge"
+                    android:id="@+id/inputAgeUserEdit"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="16dp"
@@ -137,7 +137,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextEmail" />
+                    app:layout_constraintTop_toBottomOf="@+id/inputEmailUserEdit" />
 
                 <TextView
                     android:id="@+id/textGenderHeader"
@@ -151,10 +151,10 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextAge" />
+                    app:layout_constraintTop_toBottomOf="@+id/inputAgeUserEdit" />
 
                 <RadioGroup
-                    android:id="@+id/radioGroupGender"
+                    android:id="@+id/radioGroupGenderUserEdit"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -166,7 +166,7 @@
 
                 <!-- Other gender identity -->
                 <EditText
-                    android:id="@+id/otherGenderIdentityEditText"
+                    android:id="@+id/inputOtherGenderIdentityUserEdit"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="16dp"
@@ -183,7 +183,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/radioGroupGender"
+                    app:layout_constraintTop_toBottomOf="@+id/radioGroupGenderUserEdit"
                     app:layout_constraintVertical_bias="0.0" />
 
                 <TextView
@@ -222,7 +222,7 @@
 
                 <!-- Interests -->
                 <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/chipGroupInterests"
+                    android:id="@+id/chipGroupInterestsUserEdit"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -238,7 +238,7 @@
 
                 <!-- Other Information -->
                 <EditText
-                    android:id="@+id/editTextOtherInfo"
+                    android:id="@+id/inputOtherInformationUserEdit"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="16dp"
@@ -255,7 +255,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/chipGroupInterests" />
+                    app:layout_constraintTop_toBottomOf="@+id/chipGroupInterestsUserEdit" />
 
                 <TextView
                     android:id="@+id/textViewInterests"
@@ -292,7 +292,7 @@
                 android:layout_height="wrap_content">
 
                 <Button
-                    android:id="@+id/buttonSave"
+                    android:id="@+id/buttonSaveUserEdit"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="16dp"
@@ -305,7 +305,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
-                    android:id="@+id/buttonCancel"
+                    android:id="@+id/buttonCancelUserEdit"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="16dp"
@@ -316,7 +316,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/buttonSave" />
+                    app:layout_constraintTop_toBottomOf="@+id/buttonSaveUserEdit" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
