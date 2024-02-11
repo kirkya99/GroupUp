@@ -64,29 +64,13 @@ public class UserProfileCreationFragment extends Fragment implements IImagePicke
         this.getOtherInfo();
 
         binding.buttonSaveUserCreation.setOnClickListener(v -> save());
-        binding.buttonSaveUserCreation.setOnClickListener(v -> cancel());
+        binding.buttonCancelUserCreation.setOnClickListener(v -> cancel());
 
         return root;
     }
 
     private void getProfileImage() {
-        imagePickerViewModel.getSelectedImageUri().observe(getViewLifecycleOwner(), uri -> {
-            if (uri != null) {
-                try {
-                    ImageDecoder.Source source = ImageDecoder.createSource(requireContext().getContentResolver(), uri);
-                    Drawable drawable = ImageDecoder.decodeDrawable(source);
-                    binding.profileImageUserCreation.setImageDrawable(drawable);
-                    userProfileCreationViewModel.setProfileImageUrl(uri.toString());
-                    String uriString = uri.toString();
-                    uri = Uri.parse(uriString);
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                binding.profileImageUserCreation.setImageResource(R.drawable.default_profile_image);
-            }
-        });
+        
     }
 
     private void callImagePickerDialog() {
@@ -172,11 +156,21 @@ public class UserProfileCreationFragment extends Fragment implements IImagePicke
 
     private void setGenderChangeListener(HashMap<String, Integer> identifiers) {
         this.binding.radioGroupGenderUserCreation.setOnCheckedChangeListener((group, checkedId) -> {
-            if (checkedId == identifiers.get(IUserModifiable.OTHER)) {
-                this.binding.radioGroupGenderUserCreation.setEnabled(true);
-                this.getOtherGenderIdentity();
+            if (checkedId == identifiers.get(IUserModifiable.NONE)) {
+                binding.inputOtherGenderIdentityUserCreation.setEnabled(false);
+                userProfileCreationViewModel.setGender(IUserModifiable.NONE);
+            } else if (checkedId == identifiers.get(IUserModifiable.MALE)) {
+                binding.inputOtherGenderIdentityUserCreation.setEnabled(false);
+                userProfileCreationViewModel.setGender(IUserModifiable.MALE);
+            } else if (checkedId == identifiers.get(IUserModifiable.FEMALE)) {
+                binding.inputOtherGenderIdentityUserCreation.setEnabled(false);
+                userProfileCreationViewModel.setGender(IUserModifiable.FEMALE);
+            } else if (checkedId == identifiers.get(IUserModifiable.NON_BINARY)) {
+                binding.inputOtherGenderIdentityUserCreation.setEnabled(false);
+                userProfileCreationViewModel.setGender(IUserModifiable.NON_BINARY);
             } else {
-                this.binding.radioGroupGenderUserCreation.setEnabled(false);
+                binding.inputOtherGenderIdentityUserCreation.setEnabled(true);
+                getOtherGenderIdentity();
             }
         });
     }

@@ -169,16 +169,26 @@ public class UserProfileEditFragment extends Fragment {
 
     private void setGenderChangeListener(HashMap<String, Integer> identifiers) {
         binding.radioGroupGenderUserEdit.setOnCheckedChangeListener((group, checkedId) -> {
-            if (checkedId == identifiers.get(IUserModifiable.OTHER)) {
-                binding.inputOtherGenderIdentityUserEdit.setEnabled(true);
-                this.updateUserOtherGenderIdentity();
-            } else {
+            if (checkedId == identifiers.get(IUserModifiable.NONE)) {
                 binding.inputOtherGenderIdentityUserEdit.setEnabled(false);
+                userProfileEditViewModel.setGender(IUserModifiable.NONE);
+            } else if (checkedId == identifiers.get(IUserModifiable.MALE)) {
+                binding.inputOtherGenderIdentityUserEdit.setEnabled(false);
+                userProfileEditViewModel.setGender(IUserModifiable.MALE);
+            } else if (checkedId == identifiers.get(IUserModifiable.FEMALE)) {
+                binding.inputOtherGenderIdentityUserEdit.setEnabled(false);
+                userProfileEditViewModel.setGender(IUserModifiable.FEMALE);
+            } else if (checkedId == identifiers.get(IUserModifiable.NON_BINARY)) {
+                binding.inputOtherGenderIdentityUserEdit.setEnabled(false);
+                userProfileEditViewModel.setGender(IUserModifiable.NON_BINARY);
+            } else {
+                binding.inputOtherGenderIdentityUserEdit.setEnabled(true);
+                getOtherGenderIdentity();
             }
         });
     }
 
-    private void updateUserOtherGenderIdentity() {
+    private void getOtherGenderIdentity() {
         binding.inputOtherGenderIdentityUserEdit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

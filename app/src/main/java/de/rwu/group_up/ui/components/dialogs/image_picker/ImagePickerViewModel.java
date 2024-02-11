@@ -27,44 +27,5 @@ import java.util.Date;
 import de.rwu.group_up.utils.UserManager;
 
 public class ImagePickerViewModel extends ViewModel {
-    private Uri imageUri;
-    private final MutableLiveData<Uri> selectedImageUri = new MutableLiveData<>();
-
-    public LiveData<Uri> getSelectedImageUri() {
-        return selectedImageUri;
-    }
-
-    public Uri getImageUri() {
-        return imageUri;
-    }
-
-    public void setImageUri(Context context) {
-        LocalDateTime localDateTime = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-        String formattedDate = localDateTime.format(formatter);
-        this.imageUri = FileProvider.getUriForFile(
-                context, "de.rwu.group_up.fileprovider",
-                new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
-                        "IMG_" + formattedDate + ".jpg"));
-    }
-
-    public void setImageUri(Uri imageUri) {
-        this.imageUri = imageUri;
-    }
-
-    public File createImageFile(Context context) throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-
-        // Save a file: path for use with ACTION_VIEW intents
-        return image;
-    }
-
+       
 }

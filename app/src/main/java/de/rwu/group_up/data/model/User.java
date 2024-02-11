@@ -191,6 +191,7 @@ public class User implements IUserModifiable, IUserReadable {
         HashMap<String, Object> userHashMap = new HashMap<>();
         userHashMap.put("userId", user.getUid());
         userHashMap.put("name", user.getName());
+        userHashMap.put("email", user.getEmail());
         userHashMap.put("age", user.getNumericAge());
         userHashMap.put("gender", user.getGender());
         userHashMap.put("interestsMap", new HashMap<>(user.getInterestsMap())); // Defensive copy
@@ -202,7 +203,8 @@ public class User implements IUserModifiable, IUserReadable {
         User user = new User();
         user.setUid((String) userHashMap.get("userId"));
         user.setName((String) userHashMap.get("name"));
-        user.setAge(((String) userHashMap.get("age").toString()));
+        user.setEmail((String) userHashMap.get("email"));
+        user.setAge((userHashMap.get("age").toString()));
         user.setGender((String) userHashMap.get("gender"));
         user.setInterestsMap((HashMap<String, Boolean>) userHashMap.get("interestsMap"));
         user.setOtherInfo((String) userHashMap.get("otherInfo"));
