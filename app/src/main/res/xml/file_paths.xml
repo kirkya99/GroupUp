@@ -1,0 +1,4 @@
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <external-path name="my_images" path="Android/data/de.rwu.group_up/files/Pictures" />
+    <external-files-path name="my_files" path="." />
+</paths>
