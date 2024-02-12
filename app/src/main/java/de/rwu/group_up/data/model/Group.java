@@ -3,17 +3,7 @@ package de.rwu.group_up.data.model;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.rwu.group_up.utils.UserManager;
-
-public class User implements IUserModifiable, IUserReadable {
-
-    public User() {
-        // set uid and email for newUser here?
-        UserManager userManager = UserManager.getInstance();
-        uid = userManager.getUid();
-        email = userManager.getEmail();
-        initInterestsMap();
-    }
+public class Group {
 
     private void initInterestsMap() {
         this.interestsMap = new HashMap<>();
@@ -99,80 +89,37 @@ public class User implements IUserModifiable, IUserReadable {
         this.interestsMap.put("Movies and TV Series", false);
     }
 
-    private String uid;
-    private String profileImageUrl;
-    private String email;
-    private String name;
-    private int age;
-    private String gender;
+    private String groupName;
+    private String adminId;
+    private String groupDescription;
     private HashMap<String, Boolean> interestsMap;
-    private String otherInfo;
 
-    public String getProfileImageUrl() {
-        return profileImageUrl;
+    public String getGroupName() {
+        return groupName;
     }
 
-    public String getUid() {
-        return uid;
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 
-    public String getEmail() {
-        return email;
+    public String getAdminId() {
+        return adminId;
     }
 
-    public String getName() {
-        return name;
+    public void setAdminId(String adminId) {
+        this.adminId = adminId;
     }
 
-    public int getNumericAge() {
-        return age;
+    public String getGroupDescription() {
+        return groupDescription;
     }
 
-    public String getStringAge(){
-        return String.valueOf(this.age);
-    }
-
-    public String getGender() {
-        return gender;
+    public void setGroupDescription(String groupDescription) {
+        this.groupDescription = groupDescription;
     }
 
     public HashMap<String, Boolean> getInterestsMap() {
         return interestsMap;
-    }
-
-    public String getOtherInfo() {
-        return otherInfo;
-    }
-
-    public void setProfileImageUrl(String profileImageUrl) {
-        this.profileImageUrl = profileImageUrl;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setAge(String age) {
-        try {
-            // Attempt to parse the input string to an integer
-            this.age = Integer.parseInt(age);
-        } catch (NumberFormatException e) {
-            // Handle the case where parsing fails
-            // For example, return a special value to indicate parsing failure
-            this.age = Integer.MIN_VALUE;
-        }
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
     }
 
     public void setInterestsMap(HashMap<String, Boolean> interestsMap) {
@@ -180,36 +127,26 @@ public class User implements IUserModifiable, IUserReadable {
     }
 
     public void setInterestsMapItem(String key, Boolean value){
-        interestsMap.put(key, value);
+        this.interestsMap.put(key, value);
     }
 
-    public void setOtherInfo(String otherInfo) {
-        this.otherInfo = otherInfo;
+    // saving the group instance as a hash map
+    public static HashMap<String, Object> toHashMap(Group group) {
+        HashMap<String, Object> groupHashMap = new HashMap<>();
+        groupHashMap.put("adminId", group.getAdminId());
+        groupHashMap.put("name", group.getGroupName());
+        groupHashMap.put("description", group.getGroupDescription());
+        groupHashMap.put("interestsMap", group.getInterestsMap());
+        return groupHashMap;
     }
 
-    // Saving the User instance as a Hash map format for storing in the database
-    public static HashMap<String, Object> toHashMap(User user) {
-        HashMap<String, Object> userHashMap = new HashMap<>();
-        userHashMap.put("userId", user.getUid());
-        userHashMap.put("name", user.getName());
-        userHashMap.put("email", user.getEmail());
-        userHashMap.put("age", user.getNumericAge());
-        userHashMap.put("gender", user.getGender());
-        userHashMap.put("interestsMap", new HashMap<>(user.getInterestsMap()));
-        userHashMap.put("otherInfo", user.getOtherInfo());
-        return userHashMap;
-    }
-
-    // Retrieving the user instance from the hashmap
-    public static User fromHashMap(Map<String, Object> userHashMap) {
-        User user = new User();
-        user.setUid((String) userHashMap.get("userId"));
-        user.setName((String) userHashMap.get("name"));
-        user.setEmail((String) userHashMap.get("email"));
-        user.setAge((userHashMap.get("age").toString()));
-        user.setGender((String) userHashMap.get("gender"));
-        user.setInterestsMap((HashMap<String, Boolean>) userHashMap.get("interestsMap"));
-        user.setOtherInfo((String) userHashMap.get("otherInfo"));
-        return user;
+    // retrieving the group instance from the hashmap
+    public static Group fromHashMap(Map<String, Object> groupHashMap) {
+        Group group = new Group();
+        group.setAdminId((String) groupHashMap.get("adminId"));
+        group.setGroupName((String) groupHashMap.get(("name")));
+        group.setGroupDescription((String) groupHashMap.get("description"));
+        group.setInterestsMap((HashMap<String, Boolean>) groupHashMap.get("interestsMap"));
+        return group;
     }
 }
