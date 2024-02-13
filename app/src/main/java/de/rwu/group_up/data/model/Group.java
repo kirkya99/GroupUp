@@ -3,7 +3,7 @@ package de.rwu.group_up.data.model;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Group {
+public class Group implements IGroupModifiable, IGroupReadable{
 
     private void initInterestsMap() {
         this.interestsMap = new HashMap<>();
@@ -91,35 +91,49 @@ public class Group {
 
     private String groupName;
     private String adminId;
+    private String adminName;
     private String groupDescription;
     private HashMap<String, Boolean> interestsMap;
+    private String location;
 
     public String getGroupName() {
         return groupName;
-    }
-
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
     }
 
     public String getAdminId() {
         return adminId;
     }
 
-    public void setAdminId(String adminId) {
-        this.adminId = adminId;
+    public String getAdminName(){
+        return this.adminName;
     }
 
     public String getGroupDescription() {
         return groupDescription;
     }
 
-    public void setGroupDescription(String groupDescription) {
-        this.groupDescription = groupDescription;
-    }
-
     public HashMap<String, Boolean> getInterestsMap() {
         return interestsMap;
+    }
+
+    public String getLocation(){
+        return this.location;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
+    public void setAdminId(String adminId) {
+        this.adminId = adminId;
+    }
+
+    public void setAdminName(String adminName) {
+        this.adminName = adminName;
+    }
+
+    public void setGroupDescription(String groupDescription) {
+        this.groupDescription = groupDescription;
     }
 
     public void setInterestsMap(HashMap<String, Boolean> interestsMap) {
@@ -130,13 +144,19 @@ public class Group {
         this.interestsMap.put(key, value);
     }
 
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     // saving the group instance as a hash map
     public static HashMap<String, Object> toHashMap(Group group) {
         HashMap<String, Object> groupHashMap = new HashMap<>();
-        groupHashMap.put("adminId", group.getAdminId());
         groupHashMap.put("name", group.getGroupName());
+        groupHashMap.put("adminId", group.getAdminId());
+        groupHashMap.put("adminName", group.getAdminName());
         groupHashMap.put("description", group.getGroupDescription());
         groupHashMap.put("interestsMap", group.getInterestsMap());
+        groupHashMap.put("location", group.getLocation());
         return groupHashMap;
     }
 
@@ -144,9 +164,11 @@ public class Group {
     public static Group fromHashMap(Map<String, Object> groupHashMap) {
         Group group = new Group();
         group.setAdminId((String) groupHashMap.get("adminId"));
+        group.setAdminName((String) groupHashMap.get("adminName"));
         group.setGroupName((String) groupHashMap.get(("name")));
         group.setGroupDescription((String) groupHashMap.get("description"));
         group.setInterestsMap((HashMap<String, Boolean>) groupHashMap.get("interestsMap"));
+        group.setLocation((String) groupHashMap.get("location"));
         return group;
     }
 }
