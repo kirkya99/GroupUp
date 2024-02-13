@@ -6,9 +6,9 @@ public interface IGroupReadable {
 
     String getGroupName();
 
-    String getAdminId();
+    String getOwnerId();
 
-    String getAdminName();
+    String getOwnerName();
 
     String getGroupDescription();
 

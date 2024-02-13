@@ -4,6 +4,7 @@ public class UserManager {
     private static UserManager instance;
     private String uid;
     private String email;
+    private String name;
 
     private UserManager() {
     }
@@ -31,9 +32,18 @@ public class UserManager {
         this.email = email;
     }
 
+    public String getName(){
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public void clearUserData() {
-        uid = null;
-        email = null;
+        this.uid = null;
+        this.email = null;
+        this.name = null;
     }
 }
 

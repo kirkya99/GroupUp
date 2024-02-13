@@ -6,9 +6,9 @@ public interface IGroupModifiable extends IGroupReadable{
 
     void setGroupName(String groupName);
 
-    void setAdminId(String adminId);
+    void setOwnerId(String adminId);
 
-    void setAdminName(String adminName);
+    void setOwnerName(String adminName);
 
     void setGroupDescription(String groupDescription);
 
