@@ -44,4 +44,10 @@
     <string name="personal_information">Personal Information</string>
     <string name="profile_image_selection">Profile Image Selection</string>
     <string name="about_me">About me</string>
+    <string name="group_name">Group name</string>
+    <string name="location">Location</string>
+    <string name="description">Description</string>
+    <string name="group_information">Group Information:</string>
+    <string name="relevant_interests">Relevant Interests</string>
+    <string name="create_new_group">Create new group</string>
 </resources>

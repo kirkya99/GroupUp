@@ -16,6 +16,13 @@ public class AllGroupsFragment extends Fragment {
 
     private FragmentAllGroupsBinding binding;
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // Call database here
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         AllGroupsViewModel notificationsViewModel =

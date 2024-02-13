@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -15,11 +16,15 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import de.rwu.group_up.data.local.DatabaseController;
 import de.rwu.group_up.data.local.UserDatabaseController;
+import de.rwu.group_up.data.model.IGroupReadable;
 import de.rwu.group_up.data.model.IUserModifiable;
 import de.rwu.group_up.data.model.User;
 import de.rwu.group_up.databinding.FragmentUserProfileEditBinding;
@@ -203,6 +208,10 @@ public class UserProfileEditFragment extends Fragment {
                 userProfileEditViewModel.setGender(s.toString());
             }
         });
+    }
+
+    private void callDetailsView(String text) {
+        // Call the details view fragment
     }
 
     private void updateUserInterests(IUserModifiable modifiableUser) {
