@@ -8,9 +8,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import de.rwu.group_up.R;
 import de.rwu.group_up.databinding.FragmentMyGroupsBinding;
+import de.rwu.group_up.ui.main_screen.group.create.CreateGroupFragment;
+import de.rwu.group_up.ui.start_screen.user_profile_creation.UserProfileCreationFragment;
 
 public class MyGroupsFragment extends Fragment {
 
@@ -24,9 +28,18 @@ public class MyGroupsFragment extends Fragment {
         binding = FragmentMyGroupsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-//        final TextView textView = binding.textDashboard;
-//        dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+
+        this.binding.fabNewGroup.setOnClickListener(v ->navigateToGroupCreation());
+
         return root;
+    }
+
+    private void navigateToGroupCreation() {
+        CreateGroupFragment createGroupFragment = new CreateGroupFragment();
+        FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.main_container, createGroupFragment, "createGroupFragment");
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
     @Override

@@ -89,9 +89,13 @@ public class Group implements IGroupModifiable, IGroupReadable{
         this.interestsMap.put("Movies and TV Series", false);
     }
 
+    public Group(){
+        this.initInterestsMap();
+    }
+
     private String groupName;
-    private String adminId;
-    private String adminName;
+    private String ownerId;
+    private String ownerName;
     private String groupDescription;
     private HashMap<String, Boolean> interestsMap;
     private String location;
@@ -100,12 +104,12 @@ public class Group implements IGroupModifiable, IGroupReadable{
         return groupName;
     }
 
-    public String getAdminId() {
-        return adminId;
+    public String getOwnerId() {
+        return ownerId;
     }
 
-    public String getAdminName(){
-        return this.adminName;
+    public String getOwnerName(){
+        return this.ownerName;
     }
 
     public String getGroupDescription() {
@@ -113,7 +117,7 @@ public class Group implements IGroupModifiable, IGroupReadable{
     }
 
     public HashMap<String, Boolean> getInterestsMap() {
-        return interestsMap;
+        return this.interestsMap;
     }
 
     public String getLocation(){
@@ -124,12 +128,12 @@ public class Group implements IGroupModifiable, IGroupReadable{
         this.groupName = groupName;
     }
 
-    public void setAdminId(String adminId) {
-        this.adminId = adminId;
+    public void setOwnerId(String adminId) {
+        this.ownerId = adminId;
     }
 
-    public void setAdminName(String adminName) {
-        this.adminName = adminName;
+    public void setOwnerName(String adminName) {
+        this.ownerId = adminName;
     }
 
     public void setGroupDescription(String groupDescription) {
@@ -152,8 +156,8 @@ public class Group implements IGroupModifiable, IGroupReadable{
     public static HashMap<String, Object> toHashMap(Group group) {
         HashMap<String, Object> groupHashMap = new HashMap<>();
         groupHashMap.put("name", group.getGroupName());
-        groupHashMap.put("adminId", group.getAdminId());
-        groupHashMap.put("adminName", group.getAdminName());
+        groupHashMap.put("ownerId", group.getOwnerId());
+        groupHashMap.put("ownerName", group.getOwnerName());
         groupHashMap.put("description", group.getGroupDescription());
         groupHashMap.put("interestsMap", group.getInterestsMap());
         groupHashMap.put("location", group.getLocation());
@@ -163,8 +167,8 @@ public class Group implements IGroupModifiable, IGroupReadable{
     // retrieving the group instance from the hashmap
     public static Group fromHashMap(Map<String, Object> groupHashMap) {
         Group group = new Group();
-        group.setAdminId((String) groupHashMap.get("adminId"));
-        group.setAdminName((String) groupHashMap.get("adminName"));
+        group.setOwnerId((String) groupHashMap.get("ownerId"));
+        group.setOwnerName((String) groupHashMap.get("ownerName"));
         group.setGroupName((String) groupHashMap.get(("name")));
         group.setGroupDescription((String) groupHashMap.get("description"));
         group.setInterestsMap((HashMap<String, Boolean>) groupHashMap.get("interestsMap"));

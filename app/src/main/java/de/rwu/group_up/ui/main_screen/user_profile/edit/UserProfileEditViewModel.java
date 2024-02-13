@@ -13,6 +13,7 @@ import de.rwu.group_up.data.local.DatabaseController;
 import de.rwu.group_up.data.local.UserDatabaseController;
 import de.rwu.group_up.data.model.IUserModifiable;
 import de.rwu.group_up.data.model.User;
+import de.rwu.group_up.utils.UserManager;
 
 public class UserProfileEditViewModel extends ViewModel {
 
@@ -46,7 +47,8 @@ public class UserProfileEditViewModel extends ViewModel {
     }
 
     public void setName(String name) {
-        user.setName(name);
+        UserManager.getInstance().setName(name);
+        this.user.setName(name);
     }
 
     public void setNewEmail(String newEmail) {
