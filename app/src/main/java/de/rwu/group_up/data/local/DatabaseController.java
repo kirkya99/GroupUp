@@ -80,6 +80,7 @@ public class DatabaseController implements UserDatabaseController, GroupDatabase
 
     // Create CRUD functions for the list of groups and the interface for limiting the access to only these functions. e.g. like the UserDataBaseController
 
+    @Override
     public void createGroupEntry(HashMap<String, Object> groupEntryHashMap, String groupName, GroupWriteListener listener) {
         DocumentReference groupEntryReference = firebaseFirestore.collection(GROUPS).document(groupName);
 
@@ -99,6 +100,7 @@ public class DatabaseController implements UserDatabaseController, GroupDatabase
                 .addOnFailureListener(e -> listener.onFailure("Error: " + e.getMessage()));
     }
 
+    @Override
     public void readGroupEntry(String groupName, GroupReadListener listener) {
         DocumentReference groupEntryReference = firebaseFirestore.collection(GROUPS).document(groupName);
 
@@ -117,6 +119,7 @@ public class DatabaseController implements UserDatabaseController, GroupDatabase
                 });
     }
 
+    @Override
     public void readGroupEntries(GroupsReadListener listener) {
         CollectionReference groupsReference = firebaseFirestore.collection(GROUPS);
 
@@ -135,6 +138,7 @@ public class DatabaseController implements UserDatabaseController, GroupDatabase
                 .addOnFailureListener(e -> listener.onFailure("Error: " + e.getMessage()));
     }
 
+    @Override
     public void updateGroupEntry(HashMap<String, Object> groupEntryHashMap, String groupName, GroupWriteListener listener) {
         this.firebaseFirestore.collection(GROUPS)
                 .document(groupName)
@@ -143,6 +147,7 @@ public class DatabaseController implements UserDatabaseController, GroupDatabase
                 .addOnFailureListener(e -> listener.onFailure("Error: " + e.getMessage()));
     }
 
+    @Override
     public void deleteGroupEntry(String groupName, GroupWriteListener listener) {
         DocumentReference groupEntryReference = firebaseFirestore.collection(GROUPS).document(groupName);
 
