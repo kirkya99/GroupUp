@@ -88,8 +88,7 @@ public class UserProfileDetailsFragment extends Fragment {
             this.binding.displayOtherInfoContent.setText(iUserReadable.getOtherInfo());
         });
 
-        FloatingActionButton editButton = root.findViewById(R.id.fabEditUserProfile);
-        editButton.setOnClickListener(v -> navigateToUserProfileEditFragment());
+        this.binding.fabEditUserProfile.setOnClickListener(v -> navigateToUserProfileEditFragment());
 
         setHasOptionsMenu(true);
 

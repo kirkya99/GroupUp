@@ -250,10 +250,12 @@ public class UserProfileEditFragment extends Fragment {
 
     public void save() {
         this.userProfileEditViewModel.saveUserToFirestore();
+        Snackbar.make(requireView(), "User updated successfully!", Snackbar.LENGTH_SHORT).show();
         requireActivity().getSupportFragmentManager().popBackStack();
     }
 
     public void cancel() {
+        Snackbar.make(requireView(), "User update cancelled!", Snackbar.LENGTH_SHORT).show();
         requireActivity().getSupportFragmentManager().popBackStack();
     }
 
