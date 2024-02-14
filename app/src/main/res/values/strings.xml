@@ -56,4 +56,6 @@
     <string name="group_header">Group:</string>
     <string name="owner_header">Owner:</string>
     <string name="return_to_list">Return to list</string>
+    <string name="search">Search</string>
+    <string name="filter_groups">Filter groups</string>
 </resources>
