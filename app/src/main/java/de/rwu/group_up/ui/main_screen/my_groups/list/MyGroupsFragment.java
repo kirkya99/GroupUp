@@ -42,6 +42,8 @@ public class MyGroupsFragment extends Fragment {
 
         // Call database here
 
+        this.readGroupEntries();
+        this.displayMyGroups();
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,

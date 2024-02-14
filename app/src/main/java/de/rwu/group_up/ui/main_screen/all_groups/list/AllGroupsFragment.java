@@ -47,6 +47,9 @@ public class AllGroupsFragment extends Fragment {
 
         this.allGroupsViewModel = new ViewModelProvider(this).get(AllGroupsViewModel.class);
 
+        this.readGroupEntries();
+        this.displayAllGroups();
+
         setHasOptionsMenu(true);
 
         return root;
