@@ -59,13 +59,10 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.MyViewHolder
             }
         }
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("GroupAdapter", "Gruppe angeklickt: " + groupName);
-                GroupManager.getInstance().setName(groupName);
-                navigateToDetailsView();
-            }
+        holder.itemView.setOnClickListener(v -> {
+            Log.d("GroupAdapter", "Group clicked: " + groupName);
+            GroupManager.getInstance().setName(groupName);
+            navigateToDetailsView();
         });
     }
 
