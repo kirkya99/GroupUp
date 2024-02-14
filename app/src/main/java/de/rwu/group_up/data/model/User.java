@@ -217,6 +217,7 @@ public class User implements IUserModifiable, IUserReadable {
     }
 
     // Saving the User instance as a Hash map format for storing in the database
+    // Saving the User instance as a Hash map format for storing in the database
     public static HashMap<String, Object> toHashMap(User user) {
         HashMap<String, Object> userHashMap = new HashMap<>();
         userHashMap.put("userId", user.getUid());

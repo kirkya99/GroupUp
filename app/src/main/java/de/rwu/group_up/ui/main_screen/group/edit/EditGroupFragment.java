@@ -69,6 +69,7 @@ public class EditGroupFragment extends Fragment {
             updateGroupLocation(iGroupModifiable);
             updateGroupInterests(iGroupModifiable);
             handleButtons();
+
         });
 
         return root;
