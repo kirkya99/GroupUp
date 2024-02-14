@@ -10,7 +10,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.chip.Chip;
 import com.google.android.material.snackbar.Snackbar;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import de.rwu.group_up.R;
 import de.rwu.group_up.data.local.DatabaseController;
@@ -68,7 +72,18 @@ public class DetailsGroupFragment extends Fragment {
             binding.displayGroupDescriptionContent.setText(iGroupReadable.getGroupDescription());
             binding.displayGroupLocationContent.setText(iGroupReadable.getLocation());
 
+            this.binding.chipGroupGroupInterestsContent.removeAllViews();
+            HashMap<String, Boolean> interestsMap = iGroupReadable.getInterestsMap();
+            for (Map.Entry<String, Boolean> interest : interestsMap.entrySet()) {
+                if(interest.getValue()) {
+                    Chip interestChip = new Chip(getActivity());
+                    interestChip.setText(interest.getKey());
+                    interestChip.setChecked(interest.getValue());
+                    binding.chipGroupGroupInterestsContent.addView(interestChip);
+                }
+            }
 
+            handleButtonActions();
         });
 
 
@@ -84,14 +99,11 @@ public class DetailsGroupFragment extends Fragment {
 
     private void manageDeleteAddButton(){
         detailsGroupViewModel.getUser().observe(getViewLifecycleOwner(), iUserModifiable -> {
-            boolean isAdded = false;
             if(iUserModifiable.getMyGroups().containsKey(GroupManager.getInstance().getName())) {
                 binding.buttonRemoveAddGroup.setText("Delete");
-                isAdded = true;
             }
             else {
                 binding.buttonRemoveAddGroup.setText("Add");
-                isAdded = false;
             }
 
             binding.buttonRemoveAddGroup.setOnClickListener(v -> {
