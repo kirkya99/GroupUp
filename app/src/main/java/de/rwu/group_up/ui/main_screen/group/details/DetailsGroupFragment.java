@@ -25,6 +25,7 @@ import de.rwu.group_up.data.model.User;
 import de.rwu.group_up.databinding.FragmentGroupDetailsBinding;
 import de.rwu.group_up.ui.main_screen.group.edit.EditGroupFragment;
 import de.rwu.group_up.utils.GroupManager;
+import de.rwu.group_up.utils.UserManager;
 
 public class DetailsGroupFragment extends Fragment {
 
@@ -124,6 +125,7 @@ public class DetailsGroupFragment extends Fragment {
                     }
 
                     iUserModifiable.deleteMyGroupsItem(GroupManager.getInstance().getName());
+                    handleReturnToList();
                 } else {
                     iUserModifiable.setMyGroupsItem(GroupManager.getInstance().getName(), false);
                 }
@@ -132,7 +134,12 @@ public class DetailsGroupFragment extends Fragment {
     }
 
     private void handleEditGroup(){
-        this.binding.fabEditGroup.setOnClickListener(v -> navigateToGroupEdit());
+        if(UserManager.getInstance().getUid().equals(GroupManager.getInstance().getName()))
+        {
+            this.binding.fabEditGroup.setOnClickListener(v -> navigateToGroupEdit());
+        } else {
+            this.binding.fabEditGroup.setVisibility(View.GONE);
+        }
     }
 
     private void navigateToGroupEdit() {

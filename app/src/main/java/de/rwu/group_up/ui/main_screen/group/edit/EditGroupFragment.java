@@ -68,7 +68,7 @@ public class EditGroupFragment extends Fragment {
             updateGroupDescription(iGroupModifiable);
             updateGroupLocation(iGroupModifiable);
             updateGroupInterests(iGroupModifiable);
-            handleButtons();
+            handleButtons(iGroupModifiable);
         });
 
         return root;
@@ -145,29 +145,65 @@ public class EditGroupFragment extends Fragment {
         }
     }
 
-    private void handleButtons(){
+    private void handleButtons(IGroupModifiable iGroupModifiable) {
         this.binding.buttonSaveEditGroup.setOnClickListener(v -> {
             binding.buttonSaveEditGroup.setEnabled(false);
             GroupDatabaseController groupDatabaseController = new DatabaseController();
-            groupDatabaseController.updateGroupEntry(Group.toHashMap((Group) editGroupViewModel.getGroup()), editGroupViewModel.getGroupName(), new GroupDatabaseController.GroupWriteListener() {
-                @Override
-                public void onSuccess(String message) {
-                    Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show();
-                    binding.buttonSaveEditGroup.setEnabled(true);
-                    requireActivity().getSupportFragmentManager().popBackStack();
-                }
+            if (iGroupModifiable.getGroupName().equals(editGroupViewModel.getGroup().getGroupName())) {
+                updateOnlyGroupContent(groupDatabaseController);
+            } else {
+                updateGroupWithIdentifier(iGroupModifiable, groupDatabaseController);
+            }
 
-                @Override
-                public void onFailure(String message) {
-                    Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show();
-                    binding.buttonSaveEditGroup.setEnabled(true);
-                }
-            });
+
         });
 
         this.binding.buttonCancelEditGroup.setOnClickListener(v -> {
             Snackbar.make(requireView(), "Cancelled group creation!", Snackbar.LENGTH_SHORT).show();
             requireActivity().getSupportFragmentManager().popBackStack();
+        });
+    }
+
+    private void updateOnlyGroupContent(GroupDatabaseController groupDatabaseController) {
+        groupDatabaseController.updateGroupEntry(Group.toHashMap((Group) editGroupViewModel.getGroup()), editGroupViewModel.getGroupName(), new GroupDatabaseController.GroupWriteListener() {
+            @Override
+            public void onSuccess(String message) {
+                Snackbar.make(requireView(), "Group successfully updated!", Snackbar.LENGTH_SHORT).show();
+                binding.buttonSaveEditGroup.setEnabled(true);
+                requireActivity().getSupportFragmentManager().popBackStack();
+            }
+
+            @Override
+            public void onFailure(String message) {
+                Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show();
+                binding.buttonSaveEditGroup.setEnabled(true);
+            }
+        });
+    }
+
+    private void updateGroupWithIdentifier(IGroupModifiable iGroupModifiable, GroupDatabaseController groupDatabaseController) {
+        groupDatabaseController.deleteGroupEntry(iGroupModifiable.getGroupName(), new GroupDatabaseController.GroupWriteListener() {
+            @Override
+            public void onSuccess(String message) {
+
+            }
+
+            @Override
+            public void onFailure(String message) {
+                Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show();
+            }
+        });
+
+        groupDatabaseController.createGroupEntry(Group.toHashMap((Group) editGroupViewModel.getGroup()), editGroupViewModel.getGroup().getGroupName(), new GroupDatabaseController.GroupWriteListener() {
+            @Override
+            public void onSuccess(String message) {
+                Snackbar.make(requireView(), "Group successfully updated with identifier!", Snackbar.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(String message) {
+                Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show();
+            }
         });
     }
 }

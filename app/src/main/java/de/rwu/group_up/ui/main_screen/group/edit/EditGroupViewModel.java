@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 import de.rwu.group_up.data.model.Group;
 import de.rwu.group_up.data.model.IGroupModifiable;
+import de.rwu.group_up.utils.GroupManager;
 
 public class EditGroupViewModel extends ViewModel {
 
@@ -15,7 +16,7 @@ public class EditGroupViewModel extends ViewModel {
 
 
     public EditGroupViewModel(){
-//        this.groupName = GroupManager.getInstance().getGroupName();
+        this.groupName = GroupManager.getInstance().getName();
         this.mGroup = new MutableLiveData<>();
     }
 

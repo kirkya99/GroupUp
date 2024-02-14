@@ -12,10 +12,15 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import de.rwu.group_up.R;
 import de.rwu.group_up.databinding.FragmentAllGroupsBinding;
+import de.rwu.group_up.ui.main_screen.group.create.CreateGroupFragment;
+import de.rwu.group_up.ui.main_screen.group.details.DetailsGroupFragment;
+import de.rwu.group_up.ui.main_screen.group.details.DetailsGroupViewModel;
+import de.rwu.group_up.utils.GroupManager;
 
 public class AllGroupsFragment extends Fragment {
 
@@ -36,8 +41,9 @@ public class AllGroupsFragment extends Fragment {
         binding = FragmentAllGroupsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textNotifications;
-        notificationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        GroupManager.getInstance().setName("test4");
+
+        binding.button.setOnClickListener(v -> navigateToDetailsView());
 
         setHasOptionsMenu(true);
 
@@ -68,5 +74,13 @@ public class AllGroupsFragment extends Fragment {
                 return false;
             }
         });
+    }
+
+    private void navigateToDetailsView(){
+        DetailsGroupFragment detailsGroupFragment = new DetailsGroupFragment();
+        FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.main_container, detailsGroupFragment, "detailsGroupFragment");
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }
