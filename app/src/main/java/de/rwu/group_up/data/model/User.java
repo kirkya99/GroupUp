@@ -8,11 +8,17 @@ import de.rwu.group_up.utils.UserManager;
 public class User implements IUserModifiable, IUserReadable {
 
     public User() {
-        // set uid and email for newUser here?
         UserManager userManager = UserManager.getInstance();
         uid = userManager.getUid();
         email = userManager.getEmail();
         initInterestsMap();
+        initMyGroups();
+    }
+
+    private void initMyGroups(){
+        if(this.myGroups == null) {
+            this.myGroups = new HashMap<>();
+        }
     }
 
     private void initInterestsMap() {
@@ -107,6 +113,8 @@ public class User implements IUserModifiable, IUserReadable {
     private String gender;
     private HashMap<String, Boolean> interestsMap;
     private String otherInfo;
+    private HashMap<String, Boolean> myGroups;
+
 
     public String getProfileImageUrl() {
         return profileImageUrl;
@@ -128,7 +136,7 @@ public class User implements IUserModifiable, IUserReadable {
         return age;
     }
 
-    public String getStringAge(){
+    public String getStringAge() {
         return String.valueOf(this.age);
     }
 
@@ -142,6 +150,10 @@ public class User implements IUserModifiable, IUserReadable {
 
     public String getOtherInfo() {
         return otherInfo;
+    }
+
+    public HashMap<String, Boolean> getMyGroups() {
+        return this.myGroups;
     }
 
     public void setProfileImageUrl(String profileImageUrl) {
@@ -179,12 +191,29 @@ public class User implements IUserModifiable, IUserReadable {
         this.interestsMap = interestsMap;
     }
 
-    public void setInterestsMapItem(String key, Boolean value){
+    public void setInterestsMapItem(String key, Boolean value) {
         interestsMap.put(key, value);
     }
 
     public void setOtherInfo(String otherInfo) {
         this.otherInfo = otherInfo;
+    }
+
+    public void setMyGroups(HashMap<String, Boolean> myGroups) {
+        this.myGroups = myGroups;
+    }
+
+    public void setMyGroupsItem(String groupName, Boolean isOwner) {
+        this.initMyGroups();
+        this.myGroups.put(groupName, isOwner);
+    }
+
+    public void deleteMyGroupsItem(String groupName) {
+        this.myGroups.remove(groupName);
+    }
+
+    public boolean myGroupsContains(String groupName) {
+        return this.myGroups.containsKey(groupName);
     }
 
     // Saving the User instance as a Hash map format for storing in the database
@@ -197,6 +226,7 @@ public class User implements IUserModifiable, IUserReadable {
         userHashMap.put("gender", user.getGender());
         userHashMap.put("interestsMap", new HashMap<>(user.getInterestsMap()));
         userHashMap.put("otherInfo", user.getOtherInfo());
+        userHashMap.put("myGroups", user.getMyGroups());
         return userHashMap;
     }
 
@@ -210,6 +240,7 @@ public class User implements IUserModifiable, IUserReadable {
         user.setGender((String) userHashMap.get("gender"));
         user.setInterestsMap((HashMap<String, Boolean>) userHashMap.get("interestsMap"));
         user.setOtherInfo((String) userHashMap.get("otherInfo"));
+        user.setMyGroups((HashMap<String, Boolean>) userHashMap.get("myGroups"));
         return user;
     }
 }

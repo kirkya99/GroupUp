@@ -109,7 +109,7 @@ public class Group implements IGroupModifiable, IGroupReadable{
     }
 
     public String getOwnerName(){
-        return this.ownerName;
+        return ownerName;
     }
 
     public String getGroupDescription() {
@@ -133,7 +133,7 @@ public class Group implements IGroupModifiable, IGroupReadable{
     }
 
     public void setOwnerName(String adminName) {
-        this.ownerId = adminName;
+        this.ownerName = adminName;
     }
 
     public void setGroupDescription(String groupDescription) {

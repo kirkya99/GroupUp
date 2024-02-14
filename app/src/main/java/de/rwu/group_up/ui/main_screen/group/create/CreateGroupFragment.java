@@ -1,6 +1,7 @@
 package de.rwu.group_up.ui.main_screen.group.create;
 
 import android.os.Bundle;
+import android.service.autofill.UserData;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -19,8 +20,12 @@ import java.util.Map;
 
 import de.rwu.group_up.data.local.DatabaseController;
 import de.rwu.group_up.data.local.GroupDatabaseController;
+import de.rwu.group_up.data.local.UserDatabaseController;
 import de.rwu.group_up.data.model.Group;
+import de.rwu.group_up.data.model.IUserModifiable;
+import de.rwu.group_up.data.model.User;
 import de.rwu.group_up.databinding.FragmentGroupCreationBinding;
+import de.rwu.group_up.utils.UserManager;
 
 public class CreateGroupFragment extends Fragment {
 
@@ -34,17 +39,36 @@ public class CreateGroupFragment extends Fragment {
         this.createGroupViewModel = new ViewModelProvider(this).get(CreateGroupViewModel.class);
 
         requireActivity().setTitle("Group Creation");
-
-        this.setGroupName();
-        this.setGroupDescription();
-        this.setGroupLocation();
-        this.setGroupInterests();
-        this.buttonInteractions();
+        this.readUserEntry();
+        this.createGroupViewModel.getUser().observe(getViewLifecycleOwner(), iUserModifiable -> {
+            createGroupViewModel.setOwnerId(UserManager.getInstance().getUid());
+            createGroupViewModel.setOwnerName(iUserModifiable.getName());
+            this.setGroupName();
+            this.setGroupDescription();
+            this.setGroupLocation();
+            this.setGroupInterests();
+            this.buttonInteractions(iUserModifiable);
+        });
 
         return root;
     }
 
-    private void buttonInteractions() {
+    public void readUserEntry(){
+        UserDatabaseController userDatabaseController = new DatabaseController();
+        userDatabaseController.readUserEntry(new UserDatabaseController.OnReadUserEntryListener() {
+            @Override
+            public void onSuccess(User user) {
+                createGroupViewModel.setUser(user);
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                Snackbar.make(requireView(), errorMessage, Snackbar.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void buttonInteractions(IUserModifiable iUserModifiable) {
         this.binding.buttonSaveCreateGroup.setOnClickListener(v -> {
             binding.buttonSaveCreateGroup.setEnabled(false);
             GroupDatabaseController groupDatabaseController = new DatabaseController();
@@ -62,6 +86,11 @@ public class CreateGroupFragment extends Fragment {
                     binding.buttonSaveCreateGroup.setEnabled(true);
                 }
             });
+
+            String groupName = this.createGroupViewModel.getGroupName();
+            iUserModifiable.setMyGroupsItem(groupName, true);
+            UserDatabaseController userDatabaseController = new DatabaseController();
+            userDatabaseController.updateUserEntry(User.toHashMap((User) createGroupViewModel.getUser().getValue()));
         });
 
         this.binding.buttonCancelCreateGroup.setOnClickListener(v -> {

@@ -64,8 +64,11 @@ public class EditGroupFragment extends Fragment {
 
         this.editGroupViewModel.getGroupModifiableLiveData().observe(getViewLifecycleOwner(), iGroupModifiable -> {
 
+            updateGroupName(iGroupModifiable);
+            updateGroupDescription(iGroupModifiable);
+            updateGroupLocation(iGroupModifiable);
             updateGroupInterests(iGroupModifiable);
-
+            handleButtons();
         });
 
         return root;

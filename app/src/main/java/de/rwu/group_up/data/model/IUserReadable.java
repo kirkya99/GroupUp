@@ -28,4 +28,8 @@ public interface IUserReadable {
     HashMap<String, Boolean> getInterestsMap();
 
     String getOtherInfo();
+
+    HashMap<String, Boolean> getMyGroups();
+
+    boolean myGroupsContains(String groupName);
 }
