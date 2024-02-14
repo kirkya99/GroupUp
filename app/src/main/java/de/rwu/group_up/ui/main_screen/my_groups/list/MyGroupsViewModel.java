@@ -4,16 +4,34 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import de.rwu.group_up.data.model.Group;
+
 public class MyGroupsViewModel extends ViewModel {
 
-    private final MutableLiveData<String> mText;
+    private ArrayList<Group> myGroups;
+    private HashMap<String, Boolean> userGroups;
 
     public MyGroupsViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is my groups fragment");
+        this.myGroups = new ArrayList<>();
+        this.userGroups = new HashMap<>();
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public void setUserGroups(HashMap<String, Boolean> userGroups) {
+        this.userGroups = userGroups;
+    }
+
+    public void setMyGroups(ArrayList<Group> myGroups){
+        for (Group group : myGroups) {
+            if(userGroups.containsKey(group.getGroupName())) {
+                this.myGroups.add(group);
+            }
+        }
+    }
+
+    public ArrayList<Group> getMyGroups() {
+        return this.myGroups;
     }
 }

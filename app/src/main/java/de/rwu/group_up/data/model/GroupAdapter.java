@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.chip.Chip;
@@ -17,13 +19,17 @@ import java.util.Map;
 
 import de.rwu.group_up.R;
 import de.rwu.group_up.data.model.Group;
+import de.rwu.group_up.ui.main_screen.group.details.DetailsGroupFragment;
+import de.rwu.group_up.utils.GroupManager;
 
 public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.MyViewHolder> {
 
     private ArrayList<Group> groupsList;
+    private FragmentManager fragmentManager;
 
-    public GroupAdapter(ArrayList<Group> groupsList) {
+    public GroupAdapter(ArrayList<Group> groupsList, FragmentManager fragmentManager) {
         this.groupsList = groupsList;
+        this.fragmentManager = fragmentManager;
     }
 
     @NonNull
@@ -57,8 +63,18 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.MyViewHolder
             @Override
             public void onClick(View v) {
                 Log.d("GroupAdapter", "Gruppe angeklickt: " + groupName);
+                GroupManager.getInstance().setName(groupName);
+                navigateToDetailsView();
             }
         });
+    }
+
+    private void navigateToDetailsView(){
+        DetailsGroupFragment detailsGroupFragment = new DetailsGroupFragment();
+        FragmentTransaction fragmentTransaction = this.fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.main_container, detailsGroupFragment, "detailsGroupFragment");
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
 

@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".ui.main_screen.my_groups.list.MyGroupsFragment">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvMyGroups"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabNewGroup"
         android:layout_width="wrap_content"

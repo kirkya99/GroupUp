@@ -21,6 +21,7 @@ import de.rwu.group_up.data.local.DatabaseController;
 import de.rwu.group_up.data.local.GroupDatabaseController;
 import de.rwu.group_up.data.local.UserDatabaseController;
 import de.rwu.group_up.data.model.Group;
+import de.rwu.group_up.data.model.IGroupReadable;
 import de.rwu.group_up.data.model.User;
 import de.rwu.group_up.databinding.FragmentGroupDetailsBinding;
 import de.rwu.group_up.ui.main_screen.group.edit.EditGroupFragment;
@@ -84,7 +85,7 @@ public class DetailsGroupFragment extends Fragment {
                 }
             }
 
-            handleButtonActions();
+            handleButtonActions(iGroupReadable);
         });
 
 
@@ -92,9 +93,9 @@ public class DetailsGroupFragment extends Fragment {
     }
 
 
-    private void handleButtonActions() {
+    private void handleButtonActions(IGroupReadable groupReadable) {
         this.manageDeleteAddButton();
-        this.handleEditGroup();
+        this.handleEditGroup(groupReadable);
         this.handleReturnToList();
     }
 
@@ -133,8 +134,8 @@ public class DetailsGroupFragment extends Fragment {
         });
     }
 
-    private void handleEditGroup(){
-        if(UserManager.getInstance().getUid().equals(GroupManager.getInstance().getName()))
+    private void handleEditGroup(IGroupReadable groupReadable){
+        if(UserManager.getInstance().getUid().equals(groupReadable.getOwnerId()))
         {
             this.binding.fabEditGroup.setOnClickListener(v -> navigateToGroupEdit());
         } else {

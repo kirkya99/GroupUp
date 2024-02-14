@@ -4,23 +4,28 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import org.checkerframework.checker.units.qual.A;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import de.rwu.group_up.data.model.Group;
 import de.rwu.group_up.data.model.IGroupReadable;
 
 public class AllGroupsViewModel extends ViewModel {
 
-    private final MutableLiveData<String> mText;
-    private final MutableLiveData<ArrayList<IGroupReadable>> mGroupReadable;
+    private ArrayList<Group> allGroups = new ArrayList<>();
 
     public AllGroupsViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is all groups fragment");
-        mGroupReadable = new MutableLiveData<>();
+       this.allGroups = new ArrayList<>();
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public void setAllGroups(ArrayList<Group> allGroups){
+        this.allGroups = allGroups;
     }
+
+    public ArrayList<Group> getAllGroups() {
+        return this.allGroups;
+    }
+
 }
