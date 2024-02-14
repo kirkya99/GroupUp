@@ -129,7 +129,12 @@ public class DetailsGroupFragment extends Fragment {
                     handleReturnToList();
                 } else {
                     iUserModifiable.setMyGroupsItem(GroupManager.getInstance().getName(), false);
+                    binding.buttonRemoveAddGroup.setText("Delete");
+                    Snackbar.make(requireView(), "Successfully added group to your list!", Snackbar.LENGTH_SHORT).show();
                 }
+
+                UserDatabaseController userDatabaseController = new DatabaseController();
+                userDatabaseController.updateUserEntry(User.toHashMap((User) iUserModifiable));
             });
         });
     }
