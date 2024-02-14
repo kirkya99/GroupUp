@@ -51,7 +51,6 @@ public class UserProfileDetailsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        this.readCurrentUserEntry();
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -63,18 +62,19 @@ public class UserProfileDetailsFragment extends Fragment {
         View root = this.binding.getRoot();
         this.requireActivity().setTitle("User Profile Details");
 
-        // TODO: Create user details page here
+        this.readCurrentUserEntry();
 
         this.userProfileDetailsViewModel.getUser().observe(getViewLifecycleOwner(), iUserReadable -> {
 
-            this.binding.textViewNameContent.setText(iUserReadable.getName());
+            this.binding.displayNameContent.setText(iUserReadable.getName());
 
-            this.binding.textViewEmailContent.setText(iUserReadable.getEmail());
+            this.binding.displayEmailContent.setText(iUserReadable.getEmail());
 
-            this.binding.textViewAgeContent.setText(String.valueOf(iUserReadable.getAge()));
+            this.binding.displayAgeContent.setText(String.valueOf(iUserReadable.getStringAge()));
 
-            this.binding.textViewGenderContent.setText(iUserReadable.getGender());
+            this.binding.displayGenderContent.setText(iUserReadable.getGender());
 
+            this.binding.chipGroupInterestsContent.removeAllViews();
             HashMap<String, Boolean> interestsMap = iUserReadable.getInterestsMap();
             for (Map.Entry<String, Boolean> interest : interestsMap.entrySet()) {
                 if(interest.getValue()) {
@@ -85,10 +85,10 @@ public class UserProfileDetailsFragment extends Fragment {
                 }
             }
 
-            this.binding.textViewOtherInfoContent.setText(iUserReadable.getOtherInfo());
+            this.binding.displayOtherInfoContent.setText(iUserReadable.getOtherInfo());
         });
 
-        FloatingActionButton editButton = root.findViewById(R.id.editUserProfileBtn);
+        FloatingActionButton editButton = root.findViewById(R.id.fabEditUserProfile);
         editButton.setOnClickListener(v -> navigateToUserProfileEditFragment());
 
         setHasOptionsMenu(true);

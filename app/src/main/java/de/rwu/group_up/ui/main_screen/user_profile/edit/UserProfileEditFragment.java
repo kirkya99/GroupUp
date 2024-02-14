@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -15,11 +16,15 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import de.rwu.group_up.data.local.DatabaseController;
 import de.rwu.group_up.data.local.UserDatabaseController;
+import de.rwu.group_up.data.model.IGroupReadable;
 import de.rwu.group_up.data.model.IUserModifiable;
 import de.rwu.group_up.data.model.User;
 import de.rwu.group_up.databinding.FragmentUserProfileEditBinding;
@@ -48,6 +53,7 @@ public class UserProfileEditFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        this.readCurrentUserEntry();
     }
 
     @Override
@@ -60,25 +66,26 @@ public class UserProfileEditFragment extends Fragment {
         View root = this.binding.getRoot();
         requireActivity().setTitle("User Profile Edit");
 
-        this.readCurrentUserEntry();
 
-        this.updateUserName();
-        this.updateUserEmail();
-        this.updateUserAge();
-        this.updateUserGender();
-        this.updateUserInterests();
-        this.updateUserOtherInfo();
+        this.userProfileEditViewModel.getUserModifiableLiveData().observe(getViewLifecycleOwner(), iUserModifiable -> {
+            this.updateUserName(iUserModifiable);
+            this.updateUserEmail(iUserModifiable);
+            this.updateUserAge(iUserModifiable);
+            this.updateUserGender(iUserModifiable);
+            this.updateUserInterests(iUserModifiable);
+            this.updateUserOtherInfo(iUserModifiable);
+        });
 
 
-        this.binding.buttonSave.setOnClickListener(v -> save());
-        this.binding.buttonCancel.setOnClickListener(v -> cancel());
+        this.binding.buttonSaveUserEdit.setOnClickListener(v -> save());
+        this.binding.buttonCancelUserEdit.setOnClickListener(v -> cancel());
         return root;
     }
 
-    private void updateUserName() {
-        this.binding.editTextUsername.setText(this.userProfileEditViewModel.getName());
+    private void updateUserName(IUserModifiable modifiableUser) {
+        this.binding.inputNameUserEdit.setText(modifiableUser.getName());
 
-        this.binding.editTextUsername.addTextChangedListener(new TextWatcher() {
+        this.binding.inputNameUserEdit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -94,10 +101,10 @@ public class UserProfileEditFragment extends Fragment {
         });
     }
 
-    private void updateUserEmail() {
-        this.binding.editTextEmail.setText(this.userProfileEditViewModel.getEmail());
+    private void updateUserEmail(IUserModifiable modifiableUser) {
+        this.binding.inputEmailUserEdit.setText(modifiableUser.getEmail());
 
-        this.binding.editTextEmail.addTextChangedListener(new TextWatcher() {
+        this.binding.inputEmailUserEdit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -113,10 +120,10 @@ public class UserProfileEditFragment extends Fragment {
         });
     }
 
-    private void updateUserAge() {
-        this.binding.editTextAge.setText(this.userProfileEditViewModel.getAge());
+    private void updateUserAge(IUserModifiable modifiableUser) {
+        this.binding.inputAgeUserEdit.setText(modifiableUser.getStringAge());
 
-        binding.editTextAge.addTextChangedListener(new TextWatcher() {
+        binding.inputAgeUserEdit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -127,19 +134,13 @@ public class UserProfileEditFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                int age = userProfileEditViewModel.parseInteger(s.toString());
-                if (age != Integer.MIN_VALUE) {
-                    // Integer parsed successfully, you can save it or use it as needed
-                    userProfileEditViewModel.setAge(age);
-                } else {
-                    Snackbar.make(requireView(), "Error: Invalid input!", Snackbar.LENGTH_SHORT).show();
-                }
+                userProfileEditViewModel.setAge(s.toString());
             }
         });
     }
 
-    private void updateUserGender() {
-        String selectedGender = this.userProfileEditViewModel.getGender();
+    private void updateUserGender(IUserModifiable modifiableUser) {
+        String selectedGender = modifiableUser.getGender();
 
         HashMap<String, Integer> identifiers = new HashMap<>();
         for (String gender : IUserModifiable.GENDERS) {
@@ -156,34 +157,44 @@ public class UserProfileEditFragment extends Fragment {
         genderRadioButton.setId(numericId);
         genderRadioButton.setText(gender);
 
-        binding.radioGroupGender.addView(genderRadioButton);
+        binding.radioGroupGenderUserEdit.addView(genderRadioButton);
         return numericId;
     }
 
     private void setGenderSelection(HashMap<String, Integer> identifiers, String selectedGender) {
         if (identifiers.containsKey(selectedGender)) {
-            this.binding.radioGroupGender.check(identifiers.get(selectedGender));
-            this.binding.otherGenderIdentityEditText.setEnabled(false);
+            this.binding.radioGroupGenderUserEdit.check(identifiers.get(selectedGender));
+            this.binding.inputOtherGenderIdentityUserEdit.setEnabled(false);
         } else {
-            this.binding.radioGroupGender.check(identifiers.get(IUserModifiable.OTHER));
-            this.binding.otherGenderIdentityEditText.setEnabled(true);
-            this.binding.otherGenderIdentityEditText.setText(selectedGender);
+            this.binding.radioGroupGenderUserEdit.check(identifiers.get(IUserModifiable.OTHER));
+            this.binding.inputOtherGenderIdentityUserEdit.setEnabled(true);
+            this.binding.inputOtherGenderIdentityUserEdit.setText(selectedGender);
         }
     }
 
-    private void setGenderChangeListener(HashMap<String, Integer> identifiers){
-        binding.radioGroupGender.setOnCheckedChangeListener((group, checkedId) -> {
-            if (checkedId == identifiers.get(IUserModifiable.OTHER)) {
-                binding.otherGenderIdentityEditText.setEnabled(true);
-                this.updateUserOtherGenderIdentity();
+    private void setGenderChangeListener(HashMap<String, Integer> identifiers) {
+        binding.radioGroupGenderUserEdit.setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId == identifiers.get(IUserModifiable.NONE)) {
+                binding.inputOtherGenderIdentityUserEdit.setEnabled(false);
+                userProfileEditViewModel.setGender(IUserModifiable.NONE);
+            } else if (checkedId == identifiers.get(IUserModifiable.MALE)) {
+                binding.inputOtherGenderIdentityUserEdit.setEnabled(false);
+                userProfileEditViewModel.setGender(IUserModifiable.MALE);
+            } else if (checkedId == identifiers.get(IUserModifiable.FEMALE)) {
+                binding.inputOtherGenderIdentityUserEdit.setEnabled(false);
+                userProfileEditViewModel.setGender(IUserModifiable.FEMALE);
+            } else if (checkedId == identifiers.get(IUserModifiable.NON_BINARY)) {
+                binding.inputOtherGenderIdentityUserEdit.setEnabled(false);
+                userProfileEditViewModel.setGender(IUserModifiable.NON_BINARY);
             } else {
-                binding.otherGenderIdentityEditText.setEnabled(false);
+                binding.inputOtherGenderIdentityUserEdit.setEnabled(true);
+                getOtherGenderIdentity();
             }
         });
     }
 
-    private void updateUserOtherGenderIdentity() {
-        binding.otherGenderIdentityEditText.addTextChangedListener(new TextWatcher() {
+    private void getOtherGenderIdentity() {
+        binding.inputOtherGenderIdentityUserEdit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -199,8 +210,12 @@ public class UserProfileEditFragment extends Fragment {
         });
     }
 
-    private void updateUserInterests(){
-        HashMap<String, Boolean> interestsMap = userProfileEditViewModel.getInterestsMap();
+    private void callDetailsView(String text) {
+        // Call the details view fragment
+    }
+
+    private void updateUserInterests(IUserModifiable modifiableUser) {
+        HashMap<String, Boolean> interestsMap = modifiableUser.getInterestsMap();
         for (Map.Entry<String, Boolean> interest : interestsMap.entrySet()) {
             Chip interestChip = new Chip(getActivity());
             interestChip.setText(interest.getKey());
@@ -209,14 +224,14 @@ public class UserProfileEditFragment extends Fragment {
 
             interestChip.setOnCheckedChangeListener((buttonView, isChecked) -> userProfileEditViewModel.setInterestsMapItem(interest.getKey(), isChecked));
 
-            binding.chipGroupInterests.addView(interestChip);
+            binding.chipGroupInterestsUserEdit.addView(interestChip);
         }
     }
 
-    private void updateUserOtherInfo() {
-        binding.editTextOtherInfo.setText(this.userProfileEditViewModel.getOtherInfo());
+    private void updateUserOtherInfo(IUserModifiable modifiableUser) {
+        binding.inputOtherInformationUserEdit.setText(modifiableUser.getOtherInfo());
 
-        binding.editTextOtherInfo.addTextChangedListener(new TextWatcher() {
+        binding.inputOtherInformationUserEdit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }

@@ -12,7 +12,7 @@ public interface IUserModifiable extends IUserReadable{
 
     void setName(String name);
 
-    void setAge(int age);
+    void setAge(String age);
 
     void setGender(String gender);
 

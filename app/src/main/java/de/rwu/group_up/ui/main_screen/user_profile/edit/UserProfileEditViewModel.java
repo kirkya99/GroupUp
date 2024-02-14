@@ -1,5 +1,6 @@
 package de.rwu.group_up.ui.main_screen.user_profile.edit;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -12,6 +13,7 @@ import de.rwu.group_up.data.local.DatabaseController;
 import de.rwu.group_up.data.local.UserDatabaseController;
 import de.rwu.group_up.data.model.IUserModifiable;
 import de.rwu.group_up.data.model.User;
+import de.rwu.group_up.utils.UserManager;
 
 public class UserProfileEditViewModel extends ViewModel {
 
@@ -26,6 +28,10 @@ public class UserProfileEditViewModel extends ViewModel {
         mUser = new MutableLiveData<>();
     }
 
+    public LiveData<IUserModifiable> getUserModifiableLiveData(){
+        return this.mUser;
+    }
+
     public String getName(){
         return this.user.getName();
     }
@@ -35,35 +41,22 @@ public class UserProfileEditViewModel extends ViewModel {
         return this.user.getEmail();
     }
 
-    public int getAge() {
-        return this.user.getAge();
-    }
-
-    public String getGender(){
-        return this.user.getGender();
-    }
-
-    public HashMap<String, Boolean> getInterestsMap() {
-        return this.user.getInterestsMap();
-    }
-
-    public String getOtherInfo() {
-        return this.user.getOtherInfo();
-    }
-
     public void setUser(User user) {
         this.user = user;
+        this.mUser.setValue(user);
+    }
+
+    public void setName(String name) {
+        UserManager.getInstance().setName(name);
+        this.user.setName(name);
     }
 
     public void setNewEmail(String newEmail) {
         this.newEmail = newEmail;
     }
 
-    public void setName(String name) {
-        user.setName(name);
-    }
 
-    public void setAge(int age) {
+    public void setAge(String age) {
         user.setAge(age);
     }
 
@@ -83,17 +76,6 @@ public class UserProfileEditViewModel extends ViewModel {
         this.manageEmailUpdate();
         UserDatabaseController userDatabaseController = new DatabaseController();
         userDatabaseController.updateUserEntry(User.toHashMap((User) user));
-    }
-
-    public int parseInteger(String input) {
-        try {
-            // Attempt to parse the input string to an integer
-            return Integer.parseInt(input);
-        } catch (NumberFormatException e) {
-            // Handle the case where parsing fails
-            // For example, return a special value to indicate parsing failure
-            return Integer.MIN_VALUE;
-        }
     }
 
     private void manageEmailUpdate() {

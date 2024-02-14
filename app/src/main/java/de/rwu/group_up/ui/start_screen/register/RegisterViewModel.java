@@ -9,7 +9,19 @@ import de.rwu.group_up.data.model.User;
 import de.rwu.group_up.utils.UserManager;
 
 public class RegisterViewModel extends ViewModel {
-    public void handleRegistration(String email, String password, OnRegistrationListener listener) {
+
+    private String email;
+    private String password;
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void handleRegistration(OnRegistrationListener listener) {
         if (!email.isEmpty() && !password.isEmpty()) {
             FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(task -> {

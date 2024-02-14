@@ -44,7 +44,6 @@ public class UserProfileCreationFragment extends Fragment implements IImagePicke
     private ImagePickerDialogFragment imagePickerDialogFragment;
     private RadioButton genderDefaultRadioButton;
 
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentUserProfileCreationBinding.inflate(inflater, container, false);
@@ -64,41 +63,25 @@ public class UserProfileCreationFragment extends Fragment implements IImagePicke
         this.getAge();
         this.getOtherInfo();
 
-        binding.buttonSave.setOnClickListener(v -> save());
-        binding.buttonCancel.setOnClickListener(v -> cancel());
+        binding.buttonSaveUserCreation.setOnClickListener(v -> save());
+        binding.buttonCancelUserCreation.setOnClickListener(v -> cancel());
 
         return root;
     }
 
     private void getProfileImage() {
-        imagePickerViewModel.getSelectedImageUri().observe(getViewLifecycleOwner(), uri -> {
-            if (uri != null) {
-                try {
-                    ImageDecoder.Source source = ImageDecoder.createSource(requireContext().getContentResolver(), uri);
-                    Drawable drawable = ImageDecoder.decodeDrawable(source);
-                    binding.profileImage.setImageDrawable(drawable);
-                    userProfileCreationViewModel.setProfileImageUrl(uri.toString());
-                    String uriString = uri.toString();
-                    uri = Uri.parse(uriString);
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                binding.profileImage.setImageResource(R.drawable.default_profile_image);
-            }
-        });
+        
     }
 
     private void callImagePickerDialog() {
-        binding.profileImage.setImageResource(R.drawable.default_profile_image);
+        binding.profileImageUserCreation.setImageResource(R.drawable.default_profile_image);
 
-        binding.profileImage.setOnClickListener(
+        binding.profileImageUserCreation.setOnClickListener(
                 v -> imagePickerDialogFragment.show(getChildFragmentManager(), "ImagePickerDialogFragment"));
     }
 
     private void getUserName() {
-        binding.editTextUsername.addTextChangedListener(new TextWatcher() {
+        binding.inputNameUserCreation.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -115,7 +98,7 @@ public class UserProfileCreationFragment extends Fragment implements IImagePicke
     }
 
     private void getAge() {
-        binding.editTextAge.addTextChangedListener(new TextWatcher() {
+        binding.inputAgeUserCreation.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -126,20 +109,14 @@ public class UserProfileCreationFragment extends Fragment implements IImagePicke
 
             @Override
             public void afterTextChanged(Editable s) {
-                int age = userProfileCreationViewModel.parseInteger(s.toString());
-                if (age != Integer.MIN_VALUE) {
-                    // Integer parsed successfully, you can save it or use it as needed
-                    userProfileCreationViewModel.setAge(age);
-                } else {
-                    Snackbar.make(requireView(), "Error: Invalid input!", Snackbar.LENGTH_SHORT).show();
-                }
+                userProfileCreationViewModel.setAge(s.toString());
             }
         });
     }
 
 
     private void getOtherInfo() {
-        binding.editTextOtherInfo.addTextChangedListener(new TextWatcher() {
+        binding.inputOtherInformationUserCreation.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -164,7 +141,7 @@ public class UserProfileCreationFragment extends Fragment implements IImagePicke
 
         this.setGenderChangeListener(identifiers);
 
-        binding.radioGroupGender.check(identifiers.get(IUserModifiable.NONE));
+        binding.radioGroupGenderUserCreation.check(identifiers.get(IUserModifiable.NONE));
     }
 
     private int createGenderRadioButton(String gender) {
@@ -173,23 +150,33 @@ public class UserProfileCreationFragment extends Fragment implements IImagePicke
         genderRadioButton.setId(numericId);
         genderRadioButton.setText(gender);
 
-        binding.radioGroupGender.addView(genderRadioButton);
+        binding.radioGroupGenderUserCreation.addView(genderRadioButton);
         return numericId;
     }
 
-    private void setGenderChangeListener(HashMap<String, Integer> identifiers){
-        binding.radioGroupGender.setOnCheckedChangeListener((group, checkedId) -> {
-            if (checkedId == identifiers.get(IUserModifiable.OTHER)) {
-                binding.otherGenderIdentityEditText.setEnabled(true);
-                this.getOtherGenderIdentity();
+    private void setGenderChangeListener(HashMap<String, Integer> identifiers) {
+        this.binding.radioGroupGenderUserCreation.setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId == identifiers.get(IUserModifiable.NONE)) {
+                binding.inputOtherGenderIdentityUserCreation.setEnabled(false);
+                userProfileCreationViewModel.setGender(IUserModifiable.NONE);
+            } else if (checkedId == identifiers.get(IUserModifiable.MALE)) {
+                binding.inputOtherGenderIdentityUserCreation.setEnabled(false);
+                userProfileCreationViewModel.setGender(IUserModifiable.MALE);
+            } else if (checkedId == identifiers.get(IUserModifiable.FEMALE)) {
+                binding.inputOtherGenderIdentityUserCreation.setEnabled(false);
+                userProfileCreationViewModel.setGender(IUserModifiable.FEMALE);
+            } else if (checkedId == identifiers.get(IUserModifiable.NON_BINARY)) {
+                binding.inputOtherGenderIdentityUserCreation.setEnabled(false);
+                userProfileCreationViewModel.setGender(IUserModifiable.NON_BINARY);
             } else {
-                binding.otherGenderIdentityEditText.setEnabled(false);
+                binding.inputOtherGenderIdentityUserCreation.setEnabled(true);
+                getOtherGenderIdentity();
             }
         });
     }
 
     private void getOtherGenderIdentity() {
-        binding.otherGenderIdentityEditText.addTextChangedListener(new TextWatcher() {
+        this.binding.inputOtherGenderIdentityUserCreation.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -200,7 +187,7 @@ public class UserProfileCreationFragment extends Fragment implements IImagePicke
 
             @Override
             public void afterTextChanged(Editable s) {
-                UserProfileCreationFragment.this.userProfileCreationViewModel.setGender(s.toString());
+                userProfileCreationViewModel.setGender(s.toString());
             }
         });
     }
@@ -216,7 +203,7 @@ public class UserProfileCreationFragment extends Fragment implements IImagePicke
 
             interestChip.setOnCheckedChangeListener((buttonView, isChecked) -> userProfileCreationViewModel.setInterestsMapItem(interest.getKey(), isChecked));
 
-            binding.chipGroupInterests.addView(interestChip);
+            binding.chipGroupInterestsUserCreation.addView(interestChip);
         }
     }
 
@@ -248,16 +235,13 @@ public class UserProfileCreationFragment extends Fragment implements IImagePicke
             try {
                 ImageDecoder.Source source = ImageDecoder.createSource(requireContext().getContentResolver(), imageUri);
                 Drawable drawable = ImageDecoder.decodeDrawable(source);
-                this.binding.profileImage.setImageDrawable(drawable);
+                this.binding.profileImageUserCreation.setImageDrawable(drawable);
                 this.userProfileCreationViewModel.setProfileImageUrl(imageUri.toString());
-                String uriString = imageUri.toString();
-                imageUri = Uri.parse(uriString);
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } else {
-            this.binding.profileImage.setImageResource(R.drawable.default_profile_image);
+            this.binding.profileImageUserCreation.setImageResource(R.drawable.default_profile_image);
         }
     }
 }

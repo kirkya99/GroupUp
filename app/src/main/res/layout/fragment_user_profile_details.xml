@@ -79,19 +79,19 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/textViewNameTitle"
+                        android:id="@+id/displayNameHeader"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:text="@string/user_details_name"
-                        app:layout_constraintEnd_toStartOf="@+id/textViewNameContent"
+                        app:layout_constraintEnd_toStartOf="@+id/displayNameContent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/textViewNameContent"
+                        android:id="@+id/displayNameContent"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="96dp"
@@ -102,19 +102,19 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/textViewEmailTitle"
+                        android:id="@+id/displayEmailHeader"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:text="@string/user_details_email"
-                        app:layout_constraintEnd_toStartOf="@+id/textViewEmailContent"
+                        app:layout_constraintEnd_toStartOf="@+id/displayEmailContent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textViewNameTitle" />
+                        app:layout_constraintTop_toBottomOf="@+id/displayNameHeader" />
 
                     <TextView
-                        android:id="@+id/textViewEmailContent"
+                        android:id="@+id/displayEmailContent"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="96dp"
@@ -122,20 +122,20 @@
                         android:layout_marginEnd="16dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textViewNameContent" />
+                        app:layout_constraintTop_toBottomOf="@+id/displayNameContent" />
 
                     <TextView
-                        android:id="@+id/textViewAgeTitle"
+                        android:id="@+id/displayAgeHeader"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:text="@string/user_details_age"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textViewEmailTitle" />
+                        app:layout_constraintTop_toBottomOf="@+id/displayEmailHeader" />
 
                     <TextView
-                        android:id="@+id/textViewAgeContent"
+                        android:id="@+id/displayAgeContent"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="96dp"
@@ -143,10 +143,10 @@
                         android:layout_marginEnd="16dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textViewEmailContent" />
+                        app:layout_constraintTop_toBottomOf="@+id/displayEmailContent" />
 
                     <TextView
-                        android:id="@+id/textViewGenderTitle"
+                        android:id="@+id/displayGenderHeader"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -155,13 +155,13 @@
                         android:layout_marginBottom="16dp"
                         android:text="@string/user_details_gender"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/textViewGenderContent"
+                        app:layout_constraintEnd_toStartOf="@+id/displayGenderContent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textViewAgeTitle" />
+                        app:layout_constraintTop_toBottomOf="@+id/displayAgeHeader" />
 
                     <TextView
-                        android:id="@+id/textViewGenderContent"
+                        android:id="@+id/displayGenderContent"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="96dp"
@@ -171,7 +171,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textViewAgeContent" />
+                        app:layout_constraintTop_toBottomOf="@+id/displayAgeContent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.cardview.widget.CardView>
@@ -193,6 +193,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
+                    <TextView
+                        android:id="@+id/displayInterestsHeader"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:text="@string/user_details_interests"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
                     <com.google.android.material.chip.ChipGroup
                         android:id="@+id/chipGroupInterestsContent"
                         android:layout_width="0dp"
@@ -203,12 +215,12 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textViewInterestsTitle">
+                        app:layout_constraintTop_toBottomOf="@+id/displayInterestsHeader">
 
                     </com.google.android.material.chip.ChipGroup>
 
                     <TextView
-                        android:id="@+id/textViewOtherInfoContent"
+                        android:id="@+id/displayOtherInfoHeader"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="96dp"
@@ -222,19 +234,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/chipGroupInterestsContent" />
 
                     <TextView
-                        android:id="@+id/textViewInterestsTitle"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:text="@string/user_details_interests"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/textViewOtherInfoTitle"
+                        android:id="@+id/displayOtherInfoContent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
@@ -242,7 +242,7 @@
                         android:layout_marginBottom="16dp"
                         android:text="@string/user_details_other_info"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/textViewOtherInfoContent"
+                        app:layout_constraintEnd_toStartOf="@+id/displayOtherInfoHeader"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/chipGroupInterestsContent" />
@@ -253,11 +253,11 @@
     </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/editUserProfileBtn"
+        android:id="@+id/fabEditUserProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:layout_marginEnd="12dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:clickable="true"
         android:contentDescription="@string/edit_user_profile_description"
         android:src="@android:drawable/ic_menu_edit"

@@ -8,6 +8,7 @@ import de.rwu.group_up.data.local.DatabaseController;
 import de.rwu.group_up.data.local.UserDatabaseController;
 import de.rwu.group_up.data.model.IUserModifiable;
 import de.rwu.group_up.data.model.User;
+import de.rwu.group_up.utils.UserManager;
 
 
 public class UserProfileCreationViewModel extends ViewModel {
@@ -32,10 +33,11 @@ public class UserProfileCreationViewModel extends ViewModel {
     }
 
     public void setName(String name) {
+        UserManager.getInstance().setName(name);
         this.newUser.setName(name);
     }
 
-    public void setAge(int age) {
+    public void setAge(String age) {
         this.newUser.setAge(age);
     }
 
@@ -54,16 +56,5 @@ public class UserProfileCreationViewModel extends ViewModel {
     public void saveUserToFirestore() {
         UserDatabaseController userDatabaseController = new DatabaseController();
         userDatabaseController.createUserEntry(User.toHashMap((User) this.newUser));
-    }
-
-    public int parseInteger(String input) {
-        try {
-            // Attempt to parse the input string to an integer
-            return Integer.parseInt(input);
-        } catch (NumberFormatException e) {
-            // Handle the case where parsing fails
-            // For example, return a special value to indicate parsing failure
-            return Integer.MIN_VALUE;
-        }
     }
 }
