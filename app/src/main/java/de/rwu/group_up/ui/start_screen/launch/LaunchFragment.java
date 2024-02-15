@@ -34,7 +34,7 @@ public class LaunchFragment extends Fragment {
         this.binding = FragmentLaunchBinding.inflate(inflater, container, false);
         View root = this.binding.getRoot();
 
-        requireActivity().setTitle("GroupUp");
+        requireActivity().setTitle("GroupUP");
 
         this.binding.buttonLoginLaunch.setOnClickListener(v -> showLoginFragment());
         this.binding.buttonRegisterLaunch.setOnClickListener(v -> showRegisterFragment());

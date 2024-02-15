@@ -30,3 +30,13 @@ Finally, here are a few screenshots from the app that may be helpful for underst
 ![User's Groups](images/MyGroups.PNG "Figure 4: User's Groups")
 ![All Groups](images/AllGroups.PNG "Figure 5: All Groups")
 ![Group Details](images/GroupDetail.PNG "Figure 6: Group Details")
+
+## Credits
+We used some icons from different sources of the web, here are the sources:
+- [User profile menu icon](https://thenounproject.com/icon/user-514033/)
+- [My group menu icon](https://thenounproject.com/icon/list-6574646/)
+
+## Links
+- [Presentation as PDF](GroupUP.pdf)
+- [Presentation as PPTX](GroupUP.pptx)
+- [Documentation](Doku_GroupUP.pdf)
