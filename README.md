@@ -24,15 +24,9 @@ Please pay particular attention to the calls to and from the Firestore database,
 
 ## Conclusion
 Finally, here are a few screenshots from the app that may be helpful for understanding its structure:
-![Start Screen](images/LogIn.PNG)
-- Figure 1: Start Screen
-![Registration](images/Registrieren.PNG) 
-- Figure 2: Registration
-![Profile Creation](images/ProfilCreation.PNG)
-- Figure 3: Profile Creation
-![User's Groups](images/MyGroups.PNG)
-- Figure 4: User's Groups
-![All Groups](images/AllGroups.PNG)
-- Figure 5: All Groups
-![Group Details](images/GroupDetail.PNG)
-- Figure 6: Group Details
+- ![Start Screen](images/LogIn.PNG "Figure 1: Start Screen")
+- ![Registration](images/Registrieren.PNG "Figure 2: Registration")
+- ![Profile Creation](images/ProfilCreation.PNG "Figure 3: Profile Creation")
+- ![User's Groups](images/MyGroups.PNG "Figure 4: User's Groups")
+- ![All Groups](images/AllGroups.PNG "Figure 5: All Groups")
+- ![Group Details](images/GroupDetail.PNG "Figure 6: Group Details")
