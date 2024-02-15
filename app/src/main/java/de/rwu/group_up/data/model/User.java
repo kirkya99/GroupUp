@@ -8,95 +8,101 @@ import de.rwu.group_up.utils.UserManager;
 public class User implements IUserModifiable, IUserReadable {
 
     public User() {
-        // set uid and email for newUser here?
         UserManager userManager = UserManager.getInstance();
         uid = userManager.getUid();
         email = userManager.getEmail();
         initInterestsMap();
+        initMyGroups();
+    }
+
+    private void initMyGroups(){
+        if(this.myGroups == null) {
+            this.myGroups = new HashMap<>();
+        }
     }
 
     private void initInterestsMap() {
-        interestsMap = new HashMap<>();
+        this.interestsMap = new HashMap<>();
 
         // Sport Activities
-        interestsMap.put("Soccer", false);
-        interestsMap.put("Basketball", false);
-        interestsMap.put("Tennis", false);
-        interestsMap.put("Swimming", false);
-        interestsMap.put("Running", false);
-        interestsMap.put("Cycling", false);
-        interestsMap.put("Yoga", false);
-        interestsMap.put("Martial Arts", false);
+        this.interestsMap.put("Soccer", false);
+        this.interestsMap.put("Basketball", false);
+        this.interestsMap.put("Tennis", false);
+        this.interestsMap.put("Swimming", false);
+        this.interestsMap.put("Running", false);
+        this.interestsMap.put("Cycling", false);
+        this.interestsMap.put("Yoga", false);
+        this.interestsMap.put("Martial Arts", false);
 
         // Outdoor Activities
-        interestsMap.put("Hiking", false);
-        interestsMap.put("Camping", false);
-        interestsMap.put("Fishing", false);
-        interestsMap.put("Hunting", false);
-        interestsMap.put("Birdwatching", false);
-        interestsMap.put("Gardening", false);
+        this.interestsMap.put("Hiking", false);
+        this.interestsMap.put("Camping", false);
+        this.interestsMap.put("Fishing", false);
+        this.interestsMap.put("Hunting", false);
+        this.interestsMap.put("Birdwatching", false);
+        this.interestsMap.put("Gardening", false);
 
         // Creative Hobbies
-        interestsMap.put("Drawing", false);
-        interestsMap.put("Painting", false);
-        interestsMap.put("Photography", false);
-        interestsMap.put("Writing", false);
-        interestsMap.put("Music", false);
-        interestsMap.put("Dance", false);
-        interestsMap.put("Acting", false);
+        this.interestsMap.put("Drawing", false);
+        this.interestsMap.put("Painting", false);
+        this.interestsMap.put("Photography", false);
+        this.interestsMap.put("Writing", false);
+        this.interestsMap.put("Music", false);
+        this.interestsMap.put("Dance", false);
+        this.interestsMap.put("Acting", false);
 
         // Technology and Gaming
-        interestsMap.put("Video Games", false);
-        interestsMap.put("Programming", false);
-        interestsMap.put("Web Development", false);
-        interestsMap.put("App Development", false);
-        interestsMap.put("Electronics", false);
-        interestsMap.put("Robotics", false);
+        this.interestsMap.put("Video Games", false);
+        this.interestsMap.put("Programming", false);
+        this.interestsMap.put("Web Development", false);
+        this.interestsMap.put("App Development", false);
+        this.interestsMap.put("Electronics", false);
+        this.interestsMap.put("Robotics", false);
 
         // Culinary Arts
-        interestsMap.put("Cooking", false);
-        interestsMap.put("Baking", false);
-        interestsMap.put("Food Tasting", false);
-        interestsMap.put("Wine Tasting", false);
-        interestsMap.put("Mixology", false);
+        this.interestsMap.put("Cooking", false);
+        this.interestsMap.put("Baking", false);
+        this.interestsMap.put("Food Tasting", false);
+        this.interestsMap.put("Wine Tasting", false);
+        this.interestsMap.put("Mixology", false);
 
         // Travel
-        interestsMap.put("Backpacking", false);
-        interestsMap.put("Adventure Travel", false);
-        interestsMap.put("Cultural Exploration", false);
-        interestsMap.put("Sightseeing", false);
-        interestsMap.put("Road Trips", false);
+        this.interestsMap.put("Backpacking", false);
+        this.interestsMap.put("Adventure Travel", false);
+        this.interestsMap.put("Cultural Exploration", false);
+        this.interestsMap.put("Sightseeing", false);
+        this.interestsMap.put("Road Trips", false);
 
         // Academic Interests
-        interestsMap.put("Science", false);
-        interestsMap.put("Mathematics", false);
-        interestsMap.put("History", false);
-        interestsMap.put("Literature", false);
-        interestsMap.put("Philosophy", false);
-        interestsMap.put("Psychology", false);
+        this.interestsMap.put("Science", false);
+        this.interestsMap.put("Mathematics", false);
+        this.interestsMap.put("History", false);
+        this.interestsMap.put("Literature", false);
+        this.interestsMap.put("Philosophy", false);
+        this.interestsMap.put("Psychology", false);
 
         // Health and Fitness
-        interestsMap.put("Gym", false);
-        interestsMap.put("Weightlifting", false);
-        interestsMap.put("CrossFit", false);
-        interestsMap.put("Pilates", false);
-        interestsMap.put("Nutrition", false);
-        interestsMap.put("Meditation", false);
+        this.interestsMap.put("Gym", false);
+        this.interestsMap.put("Weightlifting", false);
+        this.interestsMap.put("CrossFit", false);
+        this.interestsMap.put("Pilates", false);
+        this.interestsMap.put("Nutrition", false);
+        this.interestsMap.put("Meditation", false);
 
         // Social Interests
-        interestsMap.put("Volunteering", false);
-        interestsMap.put("Community Service", false);
-        interestsMap.put("Networking", false);
-        interestsMap.put("Socializing", false);
-        interestsMap.put("Event Planning", false);
+        this.interestsMap.put("Volunteering", false);
+        this.interestsMap.put("Community Service", false);
+        this.interestsMap.put("Networking", false);
+        this.interestsMap.put("Socializing", false);
+        this.interestsMap.put("Event Planning", false);
 
         // Miscellaneous
-        interestsMap.put("Collecting", false);
-        interestsMap.put("DIY Projects", false);
-        interestsMap.put("Board Games", false);
-        interestsMap.put("Pet Care", false);
-        interestsMap.put("Fashion", false);
-        interestsMap.put("Movies and TV Series", false);
+        this.interestsMap.put("Collecting", false);
+        this.interestsMap.put("DIY Projects", false);
+        this.interestsMap.put("Board Games", false);
+        this.interestsMap.put("Pet Care", false);
+        this.interestsMap.put("Fashion", false);
+        this.interestsMap.put("Movies and TV Series", false);
     }
 
     private String uid;
@@ -107,6 +113,8 @@ public class User implements IUserModifiable, IUserReadable {
     private String gender;
     private HashMap<String, Boolean> interestsMap;
     private String otherInfo;
+    private HashMap<String, Boolean> myGroups;
+
 
     public String getProfileImageUrl() {
         return profileImageUrl;
@@ -128,7 +136,7 @@ public class User implements IUserModifiable, IUserReadable {
         return age;
     }
 
-    public String getStringAge(){
+    public String getStringAge() {
         return String.valueOf(this.age);
     }
 
@@ -142,6 +150,10 @@ public class User implements IUserModifiable, IUserReadable {
 
     public String getOtherInfo() {
         return otherInfo;
+    }
+
+    public HashMap<String, Boolean> getMyGroups() {
+        return this.myGroups;
     }
 
     public void setProfileImageUrl(String profileImageUrl) {
@@ -179,7 +191,7 @@ public class User implements IUserModifiable, IUserReadable {
         this.interestsMap = interestsMap;
     }
 
-    public void setInterestsMapItem(String key, Boolean value){
+    public void setInterestsMapItem(String key, Boolean value) {
         interestsMap.put(key, value);
     }
 
@@ -187,6 +199,25 @@ public class User implements IUserModifiable, IUserReadable {
         this.otherInfo = otherInfo;
     }
 
+    public void setMyGroups(HashMap<String, Boolean> myGroups) {
+        this.myGroups = myGroups;
+    }
+
+    public void setMyGroupsItem(String groupName, Boolean isOwner) {
+        this.initMyGroups();
+        this.myGroups.put(groupName, isOwner);
+    }
+
+    public void deleteMyGroupsItem(String groupName) {
+        this.myGroups.remove(groupName);
+    }
+
+    public boolean myGroupsContains(String groupName) {
+        return this.myGroups.containsKey(groupName);
+    }
+
+    // Saving the User instance as a Hash map format for storing in the database
+    // Saving the User instance as a Hash map format for storing in the database
     public static HashMap<String, Object> toHashMap(User user) {
         HashMap<String, Object> userHashMap = new HashMap<>();
         userHashMap.put("userId", user.getUid());
@@ -194,11 +225,13 @@ public class User implements IUserModifiable, IUserReadable {
         userHashMap.put("email", user.getEmail());
         userHashMap.put("age", user.getNumericAge());
         userHashMap.put("gender", user.getGender());
-        userHashMap.put("interestsMap", new HashMap<>(user.getInterestsMap())); // Defensive copy
+        userHashMap.put("interestsMap", new HashMap<>(user.getInterestsMap()));
         userHashMap.put("otherInfo", user.getOtherInfo());
+        userHashMap.put("myGroups", user.getMyGroups());
         return userHashMap;
     }
 
+    // Retrieving the user instance from the hashmap
     public static User fromHashMap(Map<String, Object> userHashMap) {
         User user = new User();
         user.setUid((String) userHashMap.get("userId"));
@@ -208,6 +241,7 @@ public class User implements IUserModifiable, IUserReadable {
         user.setGender((String) userHashMap.get("gender"));
         user.setInterestsMap((HashMap<String, Boolean>) userHashMap.get("interestsMap"));
         user.setOtherInfo((String) userHashMap.get("otherInfo"));
+        user.setMyGroups((HashMap<String, Boolean>) userHashMap.get("myGroups"));
         return user;
     }
 }

@@ -1,6 +1,7 @@
 package de.rwu.group_up.ui.main_screen.user_profile.details;
 
 import android.os.Bundle;
+import android.os.UserManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -88,8 +89,7 @@ public class UserProfileDetailsFragment extends Fragment {
             this.binding.displayOtherInfoContent.setText(iUserReadable.getOtherInfo());
         });
 
-        FloatingActionButton editButton = root.findViewById(R.id.fabEditUserProfile);
-        editButton.setOnClickListener(v -> navigateToUserProfileEditFragment());
+        this.binding.fabEditUserProfile.setOnClickListener(v -> navigateToUserProfileEditFragment());
 
         setHasOptionsMenu(true);
 

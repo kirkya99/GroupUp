@@ -14,7 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 import de.rwu.group_up.R;
 import de.rwu.group_up.databinding.ActivityMainBinding;
 import de.rwu.group_up.ui.main_screen.all_groups.list.AllGroupsFragment;
-import de.rwu.group_up.ui.main_screen.my_groups.list.MyGroupsFragment;
+import de.rwu.group_up.ui.main_screen.my_groups.MyGroupsFragment;
 import de.rwu.group_up.ui.main_screen.user_profile.edit.UserProfileEditFragment;
 import de.rwu.group_up.ui.main_screen.user_profile.details.UserProfileDetailsFragment;
 

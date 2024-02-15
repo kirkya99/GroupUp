@@ -80,6 +80,7 @@ public class LoginFragment extends BaseForm {
                 public void onSuccess(FirebaseUser user) {
                     navigateToMainActivity();
                     enableButton(binding.buttonLoginLogin);
+                    Snackbar.make(requireView(), "Login successful", Snackbar.LENGTH_SHORT).show();
                 }
 
                 @Override

@@ -209,7 +209,7 @@ public class UserProfileCreationFragment extends Fragment implements IImagePicke
 
     public void save() {
         userProfileCreationViewModel.saveUserToFirestore();
-
+        Snackbar.make(requireView(), "Register successful", Snackbar.LENGTH_SHORT).show();
         Intent intent = new Intent(getActivity(), MainActivity.class);
         startActivity(intent);
         if (getActivity() != null) {

@@ -15,7 +15,7 @@
     <string name="edit_user_profile_description">Edit the user profile.</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
-    <string name="title_activity_login">LoginActivity</string>
+    <string name="app_title">GroupUp</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
@@ -44,4 +44,18 @@
     <string name="personal_information">Personal Information</string>
     <string name="profile_image_selection">Profile Image Selection</string>
     <string name="about_me">About me</string>
+    <string name="group_name">Group name</string>
+    <string name="location">Location</string>
+    <string name="description">Description</string>
+    <string name="group_information">Group Information:</string>
+    <string name="relevant_interests">Relevant Interests</string>
+    <string name="create_new_group">Create new group</string>
+    <string name="description_header">Description:</string>
+    <string name="relevant_interests_header">Relevant Interests:</string>
+    <string name="location_header">Location:</string>
+    <string name="group_header">Group:</string>
+    <string name="owner_header">Owner:</string>
+    <string name="return_to_list">Return to list</string>
+    <string name="search">Search</string>
+    <string name="filter_groups">Filter groups</string>
 </resources>

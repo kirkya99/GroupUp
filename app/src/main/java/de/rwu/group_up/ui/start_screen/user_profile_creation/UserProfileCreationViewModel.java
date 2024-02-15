@@ -8,6 +8,7 @@ import de.rwu.group_up.data.local.DatabaseController;
 import de.rwu.group_up.data.local.UserDatabaseController;
 import de.rwu.group_up.data.model.IUserModifiable;
 import de.rwu.group_up.data.model.User;
+import de.rwu.group_up.utils.UserManager;
 
 
 public class UserProfileCreationViewModel extends ViewModel {
@@ -32,6 +33,7 @@ public class UserProfileCreationViewModel extends ViewModel {
     }
 
     public void setName(String name) {
+        UserManager.getInstance().setName(name);
         this.newUser.setName(name);
     }
 

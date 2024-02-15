@@ -21,4 +21,10 @@ public interface IUserModifiable extends IUserReadable{
     void setInterestsMapItem(String key, Boolean value);
 
     void setOtherInfo(String otherInfo);
+
+    void setMyGroups(HashMap<String, Boolean> myGroups);
+
+    void setMyGroupsItem(String groupName, Boolean isOwner);
+
+    void deleteMyGroupsItem(String groupName);
 }
