@@ -1,4 +1,4 @@
-package de.rwu.group_up.ui.main_screen.my_groups.list;
+package de.rwu.group_up.ui.main_screen.my_groups;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -11,27 +11,26 @@ import de.rwu.group_up.data.model.Group;
 
 public class MyGroupsViewModel extends ViewModel {
 
-    private ArrayList<Group> myGroups;
+    private MutableLiveData<ArrayList<Group>> mMyGroups;
     private HashMap<String, Boolean> userGroups;
 
     public MyGroupsViewModel() {
-        this.myGroups = new ArrayList<>();
-        this.userGroups = new HashMap<>();
+        this.mMyGroups = new MutableLiveData<>();
     }
 
-    public void setUserGroups(HashMap<String, Boolean> userGroups) {
+    public void setMMyGroups(ArrayList<Group> allGroups){
+        this.mMyGroups.setValue(allGroups);
+    }
+
+    public LiveData<ArrayList<Group>> getMMyGroups(){
+        return this.mMyGroups;
+    }
+
+    public void setUserGroups(HashMap<String, Boolean> userGroups){
         this.userGroups = userGroups;
     }
 
-    public void setMyGroups(ArrayList<Group> myGroups){
-        for (Group group : myGroups) {
-            if(userGroups.containsKey(group.getGroupName())) {
-                this.myGroups.add(group);
-            }
-        }
-    }
-
-    public ArrayList<Group> getMyGroups() {
-        return this.myGroups;
+    public HashMap<String, Boolean> getUserGroups() {
+        return this.userGroups;
     }
 }

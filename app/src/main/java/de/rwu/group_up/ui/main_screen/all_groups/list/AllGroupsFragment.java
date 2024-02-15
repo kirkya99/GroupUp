@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.appcompat.widget.SearchView;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import de.rwu.group_up.R;
+
 import java.util.ArrayList;
 
 import de.rwu.group_up.data.local.DatabaseController;
@@ -37,7 +39,9 @@ public class AllGroupsFragment extends Fragment {
 
         // Call database here
         this.readGroupEntries();
+        this.allGroupsViewModel.getMAllGroups().observe(getViewLifecycleOwner(), groups -> adapter.updateData(groups));
         this.displayAllGroups();
+
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -47,7 +51,9 @@ public class AllGroupsFragment extends Fragment {
 
         this.allGroupsViewModel = new ViewModelProvider(this).get(AllGroupsViewModel.class);
 
+
         this.readGroupEntries();
+        this.allGroupsViewModel.getMAllGroups().observe(getViewLifecycleOwner(), groups -> adapter.updateData(groups));
         this.displayAllGroups();
 
         setHasOptionsMenu(true);
@@ -86,9 +92,8 @@ public class AllGroupsFragment extends Fragment {
         groupDatabaseController.readGroupEntries(new GroupDatabaseController.GroupsReadListener() {
             @Override
             public void onSuccess(ArrayList<Group> groupsList) {
-                allGroupsViewModel.setAllGroups(groupsList);
-                Log.d("AllGroupsList", "onSuccess was called with the following data: " + allGroupsViewModel.getAllGroups().toString());
-                adapter.updateData(allGroupsViewModel.getAllGroups());
+                allGroupsViewModel.setMAllGroups(groupsList);
+                Log.d("AllGroupsList", "onSuccess was called with the following data: " + groupsList.toString());
             }
 
             @Override
@@ -98,9 +103,14 @@ public class AllGroupsFragment extends Fragment {
         });
     }
 
-    private void displayAllGroups(){
+    private void displayAllGroups() {
         RecyclerView recyclerView = binding.rvAllGroups;
-        adapter = new GroupAdapter(allGroupsViewModel.getAllGroups(), getParentFragmentManager());
+        ArrayList<Group> myGroups = allGroupsViewModel.getMAllGroups().getValue();
+        if (myGroups != null) {
+            adapter = new GroupAdapter(myGroups, getParentFragmentManager());
+        } else {
+            adapter = new GroupAdapter(new ArrayList<>(), getParentFragmentManager());
+        }
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }

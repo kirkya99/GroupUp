@@ -116,6 +116,7 @@ public class DetailsGroupFragment extends Fragment {
                             @Override
                             public void onSuccess(String message) {
                                 Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show();
+                                requireActivity().getSupportFragmentManager().popBackStack();
                             }
 
                             @Override
@@ -126,7 +127,6 @@ public class DetailsGroupFragment extends Fragment {
                     }
 
                     iUserModifiable.deleteMyGroupsItem(GroupManager.getInstance().getName());
-                    handleReturnToList();
                 } else {
                     iUserModifiable.setMyGroupsItem(GroupManager.getInstance().getName(), false);
                     binding.buttonRemoveAddGroup.setText("Delete");

@@ -14,18 +14,17 @@ import de.rwu.group_up.data.model.IGroupReadable;
 
 public class AllGroupsViewModel extends ViewModel {
 
-    private ArrayList<Group> allGroups = new ArrayList<>();
+    private MutableLiveData<ArrayList<Group>> mAllGroups;
 
-    public AllGroupsViewModel() {
-       this.allGroups = new ArrayList<>();
+    public AllGroupsViewModel(){
+        this.mAllGroups = new MutableLiveData<>();
     }
 
-    public void setAllGroups(ArrayList<Group> allGroups){
-        this.allGroups = allGroups;
+    public void setMAllGroups(ArrayList<Group> allGroups){
+        this.mAllGroups.setValue(allGroups);
     }
 
-    public ArrayList<Group> getAllGroups() {
-        return this.allGroups;
+    public LiveData<ArrayList<Group>> getMAllGroups(){
+        return this.mAllGroups;
     }
-
 }

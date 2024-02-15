@@ -1,4 +1,4 @@
-package de.rwu.group_up.ui.main_screen.my_groups.list;
+package de.rwu.group_up.ui.main_screen.my_groups;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.appcompat.widget.SearchView;
 
 import androidx.annotation.NonNull;
@@ -43,6 +44,7 @@ public class MyGroupsFragment extends Fragment {
         // Call database here
 
         this.readGroupEntries();
+        this.myGroupsViewModel.getMMyGroups().observe(getViewLifecycleOwner(), groups -> adapter.updateData(groups));
         this.displayMyGroups();
     }
 
@@ -54,9 +56,11 @@ public class MyGroupsFragment extends Fragment {
         View root = binding.getRoot();
 
 
-        this.binding.fabNewGroup.setOnClickListener(v ->navigateToGroupCreation());
+        this.binding.fabNewGroup.setOnClickListener(v -> navigateToGroupCreation());
+
 
         this.readGroupEntries();
+        this.myGroupsViewModel.getMMyGroups().observe(getViewLifecycleOwner(), groups -> adapter.updateData(groups));
         this.displayMyGroups();
 
         setHasOptionsMenu(true);
@@ -116,9 +120,15 @@ public class MyGroupsFragment extends Fragment {
         groupDatabaseController.readGroupEntries(new GroupDatabaseController.GroupsReadListener() {
             @Override
             public void onSuccess(ArrayList<Group> groupsList) {
-                myGroupsViewModel.setMyGroups(groupsList);
-                Log.d("AllGroupsList", "onSuccess was called with the following data: " + myGroupsViewModel.getMyGroups().toString());
-                adapter.updateData(myGroupsViewModel.getMyGroups());
+                ArrayList<Group> filteredGroup = new ArrayList<>();
+                for (Group group : groupsList) {
+                    if (myGroupsViewModel.getUserGroups().containsKey(group.getGroupName())) {
+                        filteredGroup.add(group);
+                    }
+                }
+
+                myGroupsViewModel.setMMyGroups(filteredGroup);
+                Log.d("AllGroupsList", "onSuccess was called with the following data: " + filteredGroup);
             }
 
             @Override
@@ -128,9 +138,14 @@ public class MyGroupsFragment extends Fragment {
         });
     }
 
-    private void displayMyGroups(){
+    private void displayMyGroups() {
         RecyclerView recyclerView = binding.rvMyGroups;
-        adapter = new GroupAdapter(myGroupsViewModel.getMyGroups(), getParentFragmentManager());
+        ArrayList<Group> myGroups = myGroupsViewModel.getMMyGroups().getValue();
+        if (myGroups != null) {
+            adapter = new GroupAdapter(myGroups, getParentFragmentManager());
+        } else {
+            adapter = new GroupAdapter(new ArrayList<>(), getParentFragmentManager());
+        }
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
